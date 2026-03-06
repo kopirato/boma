@@ -2,159 +2,118 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Boma Market</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
 <header>
-
 <div class="logo-area">
-
 <img src="boma.png" class="logo">
-
 <div>
-
 <h1>BOMA MARKET</h1>
-
 <p>From the Boma to the Market</p>
-
 </div>
-
 </div>
-
 </header>
 
-
 <nav>
-
 <a href="#">Home</a>
-
-<a href="#sell">Sell Livestock</a>
-
+<a href="#sell">Sell</a>
 <a href="#market">Market</a>
-
 </nav>
 
-
 <section class="hero">
-
 <h2>Buy and Sell Livestock Online</h2>
-
 <p>Cattle • Goats • Sheep • Donkeys • Poultry</p>
-
 </section>
-
-
 
 <section id="sell" class="sell-form">
 
-<h2>Sell Your Livestock</h2>
+<h2>Sell Livestock</h2>
 
 <label>Animal Type</label>
-
 <select id="name">
-
-<option value="">Select Animal</option>
-
+<option value="">Select</option>
 <option>Cattle</option>
-
 <option>Goat</option>
-
 <option>Sheep</option>
-
 <option>Dorper Sheep</option>
-
 <option>Donkey</option>
-
 <option>Poultry</option>
-
 </select>
-
 
 <label>Age</label>
-
 <select id="age">
-
-<option value="">Select Age</option>
-
+<option value="">Select</option>
 <option>3 months</option>
-
 <option>6 months</option>
-
 <option>1 year</option>
-
 <option>2 years</option>
-
 <option>3+ years</option>
-
 </select>
 
-
-<label>Price (KES)</label>
-
-<input id="price" type="number" placeholder="Enter price">
-
+<label>Price</label>
+<input id="price" type="number" placeholder="Price">
 
 <label>Location</label>
-
 <select id="location">
-
 <option>Kajiado</option>
-
 <option>Narok</option>
-
 <option>Samburu</option>
-
 <option>Laikipia</option>
-
 <option>Tanzania Border</option>
-
 </select>
 
-
-<label>Phone Number</label>
-
+<label>Phone</label>
 <input id="phone" placeholder="2547XXXXXXXX">
 
-
-<label>Upload Animal Photo</label>
-
+<label>Upload Photo</label>
 <input id="imageUpload" type="file" accept="image/*">
-
 
 <button onclick="addAnimal()">Post Animal</button>
 
 </section>
 
+<section class="search-section">
 
+<h2>Search Livestock</h2>
 
-<section>
+<input id="search" placeholder="Search animal..." onkeyup="searchAnimals()">
 
-<h2 class="market-title">Livestock Market</h2>
+<select id="filterAnimal" onchange="searchAnimals()">
+<option value="">All Animals</option>
+<option>Cattle</option>
+<option>Goat</option>
+<option>Sheep</option>
+<option>Dorper Sheep</option>
+<option>Donkey</option>
+<option>Poultry</option>
+</select>
 
-<div id="market"></div>
+<select id="filterLocation" onchange="searchAnimals()">
+<option value="">All Locations</option>
+<option>Kajiado</option>
+<option>Narok</option>
+<option>Samburu</option>
+<option>Laikipia</option>
+<option>Tanzania Border</option>
+</select>
 
 </section>
 
+<section id="market">
+
+</section>
 
 <footer>
-
 <p>Boma Market © 2026</p>
-
 </footer>
-
 
 <script src="script.js"></script>
 
 </body>
-
 </html>
