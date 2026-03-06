@@ -29,6 +29,19 @@
   <a href="#market">Market</a>
 </nav>
 
+<!-- Auth Section -->
+<section class="auth-section">
+  <h2>Account</h2>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <div class="auth-buttons">
+    <button id="signupBtn">Sign Up</button>
+    <button id="loginBtn">Log In</button>
+    <button id="logoutBtn" style="display:none;">Log Out</button>
+  </div>
+  <p id="authStatus">Not logged in — sign in to post livestock</p>
+</section>
+
 <section class="hero">
   <h2>East Africa's Digital Livestock Marketplace</h2>
   <p>Buy and sell livestock directly from the Boma</p>
@@ -78,12 +91,12 @@
     <option>Tanzania Border</option>
   </select>
 
-  <label>Phone</label>
+  <label>Phone (format: 2547XXXXXXXX)</label>
   <input id="phone" placeholder="2547XXXXXXXX">
 
   <label>Upload Photo</label>
   <input id="imageUpload" type="file" accept="image/*">
-  <img id="preview" class="preview">
+  <img id="preview" class="preview" alt="Image preview">
 
   <button id="postBtn">Post Animal</button>
 </section>
@@ -111,13 +124,18 @@
   </select>
 </section>
 
-<section id="market"></section>
+<section id="market">
+  <h2>Livestock Market</h2>
+  <!-- Animals will be loaded here -->
+</section>
 
 <footer>
   <p>Boma Market PRO © 2026</p>
 </footer>
 
-<!-- Script placed at the end of body -->
-<script src="script.js"></script>
+<!-- Your JavaScript -->
+<script>
+// script.js content goes here (see below)
+</script>
 </body>
 </html>
