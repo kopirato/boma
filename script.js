@@ -1,43 +1,36 @@
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyDC6SdxI_vTZcwDYB_PFDe3IxC5O8eN0sI",
-  authDomain: "boma-df6e6.firebaseapp.com",
-  databaseURL: "https://boma-df6e6-default-rtdb.firebaseio.com",
-  projectId: "boma-df6e6",
-  storageBucket: "boma-df6e6.appspot.com",
-  messagingSenderId: "880769903150",
-  appId: "1:880769903150:web:a260dde02bc13b4a91cdbf",
-  measurementId: "G-NF39XTLK4C"
-};
+// ------------------------
+// BOMA MARKET - SUPABASE JS
+// ------------------------
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-const storage = firebase.storage();
+// Supabase project config
+const SUPABASE_URL = "https://szcqgjkgmqygcbizwmoc.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Y3FnamtnbXF5Z2NiaXp3bW9jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MjA1OTksImV4cCI6MjA4ODM5NjU5OX0.v9uYMCPb4U2fdG_VYvA5h5wKdvzzaEU43xJsDth5LSI";
 
-// DOM Elements
+// Create Supabase client
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// DOM elements
 const postBtn = document.getElementById("postBtn");
-const searchInput = document.getElementById("search");
-const filterAnimal = document.getElementById("filterAnimal");
-const filterLocation = document.getElementById("filterLocation");
 const previewImg = document.getElementById("preview");
 const imageInput = document.getElementById("imageUpload");
 
-// Preview image
-imageInput.addEventListener("change", function() {
+// ------------------------
+// Image preview
+// ------------------------
+imageInput.addEventListener("change", () => {
   const file = imageInput.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(e) {
-    previewImg.src = e.target.result;
-  };
+  reader.onload = e => previewImg.src = e.target.result;
   reader.readAsDataURL(file);
 });
 
-// Add animal
-postBtn.addEventListener("click", function() {
+// ------------------------
+// Post a new animal
+// ------------------------
+postBtn.addEventListener("click", async () => {
   const file = imageInput.files[0];
-  if (!file) { alert("Please select an image"); return; }
+  if (!file) { alert("Select an image"); return; }
 
   const animal = {
     name: document.getElementById("name").value,
@@ -47,67 +40,103 @@ postBtn.addEventListener("click", function() {
     phone: document.getElementById("phone").value
   };
 
-  const storageRef = storage.ref("animals/" + Date.now() + "_" + file.name);
-  storageRef.put(file).then(snapshot => {
-    snapshot.ref.getDownloadURL().then(url => {
-      animal.image = url;
-      db.ref("animals").push(animal);
-      imageInput.value = "";
-      previewImg.src = "";
-      document.getElementById("name").value="";
-      document.getElementById("age").value="";
-      document.getElementById("price").value="";
-      document.getElementById("location").value="";
-      document.getElementById("phone").value="";
-    });
-  });
+  try {
+    // Upload image to Supabase Storage
+    const fileName = `${Date.now()}_${file.name}`;
+    const { data: uploadData, error: uploadError } = await supabase
+      .storage
+      .from("animals")
+      .upload(fileName, file, { cacheControl: "3600", upsert: false });
+
+    if (uploadError) throw uploadError;
+
+    // Get public URL
+    const { data: publicUrlData } = supabase
+      .storage
+      .from("animals")
+      .getPublicUrl(fileName);
+
+    animal.image_url = publicUrlData.publicUrl;
+
+    // Insert into database
+    const { error: dbError } = await supabase.from("animals").insert([animal]);
+    if (dbError) throw dbError;
+
+    // Reset form
+    imageInput.value = "";
+    previewImg.src = "";
+    document.getElementById("name").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("location").value = "";
+    document.getElementById("phone").value = "";
+
+    // Reload all animals
+    loadAnimals();
+
+  } catch (err) {
+    console.error(err);
+    alert("Failed to post animal: " + err.message);
+  }
 });
 
+// ------------------------
+// Load all animals
+// ------------------------
+async function loadAnimals() {
+  let { data: animals, error } = await supabase.from("animals").select("*").order("id", { ascending: false });
+  if (error) { console.error(error); return; }
+  displayAnimals(animals);
+}
+
+// ------------------------
 // Display animals
+// ------------------------
 function displayAnimals(list) {
   const market = document.getElementById("market");
   market.innerHTML = "";
+  if (!list) return;
+
   list.forEach(a => {
     market.innerHTML += `
       <div class="card">
-        <img src="${a.image}">
+        <img src="${a.image_url}">
         <h3>${a.name}</h3>
         <p>Age: ${a.age}</p>
         <p>Price: KES ${a.price}</p>
         <p>Location: ${a.location}</p>
-        <a href="https://wa.me/${a.phone}" target="_blank"><button>Contact Seller</button></a>
+        <a href="https://wa.me/${a.phone}" target="_blank">
+          <button>Contact Seller</button>
+        </a>
       </div>
     `;
   });
 }
 
-// Listen for database changes
-db.ref("animals").on("value", snapshot => {
-  const data = snapshot.val();
-  const list = [];
-  for (let key in data) list.push(data[key]);
-  displayAnimals(list);
-});
+// ------------------------
+// Filters & search
+// ------------------------
+async function filterAndSearch() {
+  const search = document.getElementById("search").value.toLowerCase();
+  const animalVal = document.getElementById("filterAnimal").value;
+  const locationVal = document.getElementById("filterLocation").value;
 
-// Filters & Search
-function filterAndSearch() {
-  const search = searchInput.value.toLowerCase();
-  const animalVal = filterAnimal.value;
-  const locationVal = filterLocation.value;
+  let { data: animals, error } = await supabase.from("animals").select("*");
+  if (error) { console.error(error); return; }
 
-  db.ref("animals").once("value", snapshot => {
-    const data = snapshot.val();
-    const list = [];
-    for (let key in data) list.push(data[key]);
-    const filtered = list.filter(a =>
-      a.name.toLowerCase().includes(search) &&
-      (animalVal === "" || a.name === animalVal) &&
-      (locationVal === "" || a.location === locationVal)
-    );
-    displayAnimals(filtered);
-  });
+  animals = animals.filter(a =>
+    a.name.toLowerCase().includes(search) &&
+    (animalVal === "" || a.name === animalVal) &&
+    (locationVal === "" || a.location === locationVal)
+  );
+
+  displayAnimals(animals);
 }
 
-searchInput.addEventListener("keyup", filterAndSearch);
-filterAnimal.addEventListener("change", filterAndSearch);
-filterLocation.addEventListener("change", filterAndSearch);
+// Attach search/filter events
+document.getElementById("search").addEventListener("keyup", filterAndSearch);
+document.getElementById("filterAnimal").addEventListener("change", filterAndSearch);
+document.getElementById("filterLocation").addEventListener("change", filterAndSearch);
+
+// Initial load
+loadAnimals();
