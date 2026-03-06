@@ -1,5 +1,26 @@
 let animals = JSON.parse(localStorage.getItem("animals")) || [];
 
+
+function previewImage(){
+
+let file=document.getElementById("imageUpload").files[0];
+
+let reader=new FileReader();
+
+reader.onload=function(){
+
+document.getElementById("preview").src=reader.result;
+
+};
+
+if(file){
+reader.readAsDataURL(file);
+}
+
+}
+
+
+
 function addAnimal(){
 
 let file=document.getElementById("imageUpload").files[0];
@@ -35,6 +56,8 @@ displayAnimals();
 reader.readAsDataURL(file);
 
 }
+
+
 
 function displayAnimals(list=animals){
 
@@ -72,6 +95,8 @@ market.innerHTML+=`
 
 }
 
+
+
 function searchAnimals(){
 
 let search=document.getElementById("search").value.toLowerCase();
@@ -79,6 +104,7 @@ let search=document.getElementById("search").value.toLowerCase();
 let animalFilter=document.getElementById("filterAnimal").value;
 
 let locationFilter=document.getElementById("filterLocation").value;
+
 
 let filtered=animals.filter(a=>{
 
@@ -92,8 +118,10 @@ return(
 
 });
 
+
 displayAnimals(filtered);
 
 }
+
 
 displayAnimals();
