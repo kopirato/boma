@@ -2,55 +2,49 @@ let animals = JSON.parse(localStorage.getItem("animals")) || [];
 
 function addAnimal(){
 
-let file = document.getElementById("imageUpload").files[0];
+let file=document.getElementById("imageUpload").files[0];
 
-let reader = new FileReader();
+if(!file){
+alert("Please upload an image");
+return;
+}
 
-reader.onload = function(){
+let reader=new FileReader();
 
-let animal = {
+reader.onload=function(){
 
-name: document.getElementById("name").value,
+let animal={
 
-age: document.getElementById("age").value,
-
-price: document.getElementById("price").value,
-
-location: document.getElementById("location").value,
-
-phone: document.getElementById("phone").value,
-
-image: reader.result
+name:document.getElementById("name").value,
+age:document.getElementById("age").value,
+price:document.getElementById("price").value,
+location:document.getElementById("location").value,
+phone:document.getElementById("phone").value,
+image:reader.result
 
 };
 
 animals.push(animal);
 
-localStorage.setItem("animals", JSON.stringify(animals));
+localStorage.setItem("animals",JSON.stringify(animals));
 
 displayAnimals();
 
 };
 
-if(file){
-
 reader.readAsDataURL(file);
 
 }
 
-}
+function displayAnimals(list=animals){
 
+let market=document.getElementById("market");
 
+market.innerHTML="";
 
-function displayAnimals(){
+list.forEach(a=>{
 
-let market = document.getElementById("market");
-
-market.innerHTML = "";
-
-animals.forEach(a => {
-
-market.innerHTML += `
+market.innerHTML+=`
 
 <div class="card">
 
@@ -75,6 +69,30 @@ market.innerHTML += `
 `;
 
 });
+
+}
+
+function searchAnimals(){
+
+let search=document.getElementById("search").value.toLowerCase();
+
+let animalFilter=document.getElementById("filterAnimal").value;
+
+let locationFilter=document.getElementById("filterLocation").value;
+
+let filtered=animals.filter(a=>{
+
+return(
+
+(a.name.toLowerCase().includes(search)) &&
+(animalFilter=="" || a.name==animalFilter) &&
+(locationFilter=="" || a.location==locationFilter)
+
+);
+
+});
+
+displayAnimals(filtered);
 
 }
 
