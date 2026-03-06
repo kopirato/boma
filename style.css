@@ -1,198 +1,112 @@
 body{
-
 font-family:Arial;
-
 margin:0;
-
-background:#f5f5f5;
-
+background:#f2f2f2;
 }
-
 
 header{
-
 background:#c1121f;
-
 color:white;
-
 padding:15px;
-
 }
-
 
 .logo-area{
-
 display:flex;
-
 align-items:center;
-
 gap:15px;
-
 }
-
 
 .logo{
-
-width:70px;
-
+width:60px;
 }
-
 
 nav{
-
 background:black;
-
 padding:10px;
-
 text-align:center;
-
 }
-
 
 nav a{
-
 color:white;
-
 margin:15px;
-
 text-decoration:none;
-
 font-weight:bold;
-
 }
-
 
 .hero{
-
 text-align:center;
-
 padding:40px;
-
 background:white;
-
 }
-
 
 .sell-form{
-
 background:white;
-
 width:330px;
-
 margin:30px auto;
-
 padding:20px;
-
 border-radius:10px;
-
 box-shadow:0 0 10px rgba(0,0,0,0.2);
-
-text-align:center;
-
 }
-
 
 .sell-form label{
-
 display:block;
-
 margin-top:10px;
-
 font-weight:bold;
-
 }
 
-
+.sell-form input,
 .sell-form select{
-
 width:95%;
-
 padding:10px;
-
 margin-top:5px;
-
 }
-
-
-.sell-form input{
-
-width:90%;
-
-padding:10px;
-
-margin-top:5px;
-
-}
-
 
 button{
-
 background:#c1121f;
-
 color:white;
-
 padding:10px;
-
 border:none;
-
-cursor:pointer;
-
 margin-top:10px;
-
+cursor:pointer;
 }
 
+.search-section{
+text-align:center;
+padding:20px;
+background:white;
+}
+
+.search-section input,
+.search-section select{
+padding:10px;
+margin:5px;
+}
 
 #market{
-
 display:flex;
-
 flex-wrap:wrap;
-
 justify-content:center;
-
 padding:20px;
-
 }
-
 
 .card{
-
 background:white;
-
 width:260px;
-
 margin:15px;
-
 padding:15px;
-
 border-radius:10px;
-
 box-shadow:0 0 10px rgba(0,0,0,0.2);
-
 text-align:center;
-
 }
-
 
 .card img{
-
 width:100%;
-
 border-radius:10px;
-
 }
 
-
 footer{
-
-text-align:center;
-
 background:black;
-
 color:white;
-
+text-align:center;
 padding:15px;
-
-margin-top:40px;
-
 }
