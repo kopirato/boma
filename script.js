@@ -1,5 +1,5 @@
 // ------------------------
-// BOMA MARKET - SUPABASE JS
+// BOMA MARKET PRO - SUPABASE JS
 // ------------------------
 
 // Supabase project config
@@ -71,7 +71,7 @@ postBtn.addEventListener("click", async () => {
     document.getElementById("location").value = "";
     document.getElementById("phone").value = "";
 
-    // Reload all animals
+    // Reload animals
     loadAnimals();
 
   } catch (err) {
