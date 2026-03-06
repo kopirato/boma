@@ -1,8 +1,7 @@
 body{
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial;
 margin:0;
 
-/* Savanna inspired gradient */
 background:linear-gradient(
 135deg,
 #f5e6c8,
@@ -10,7 +9,6 @@ background:linear-gradient(
 #f4a261
 );
 
-min-height:100vh;
 }
 
 
@@ -24,8 +22,7 @@ background:linear-gradient(
 );
 
 color:white;
-padding:18px;
-box-shadow:0 4px 10px rgba(0,0,0,0.3);
+padding:20px;
 }
 
 .logo-area{
@@ -36,15 +33,13 @@ gap:15px;
 
 .logo{
 width:65px;
-height:65px;
-object-fit:contain;
 }
 
 
-/* NAVBAR */
+/* NAV */
 
 nav{
-background:#000;
+background:black;
 padding:12px;
 text-align:center;
 }
@@ -54,8 +49,6 @@ color:white;
 margin:15px;
 text-decoration:none;
 font-weight:bold;
-font-size:16px;
-transition:0.3s;
 }
 
 nav a:hover{
@@ -63,58 +56,82 @@ color:#e9c46a;
 }
 
 
-/* HERO SECTION */
+/* HERO */
 
 .hero{
-text-align:center;
-padding:50px 20px;
 
-background:linear-gradient(
-to right,
-rgba(255,255,255,0.85),
-rgba(255,255,255,0.75)
-);
+height:300px;
 
-margin:20px;
-border-radius:12px;
+background:url("https://images.unsplash.com/photo-1546182990-dffeafbe841d")
+center/cover;
 
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+color:white;
+text-shadow:2px 2px 10px black;
+
 }
 
 .hero h2{
-font-size:32px;
-margin-bottom:10px;
+font-size:34px;
 }
 
-.hero p{
-font-size:18px;
-color:#333;
+
+/* CATEGORY ICONS */
+
+.categories{
+
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+
+gap:25px;
+
+padding:30px;
+}
+
+.cat{
+
+background:white;
+padding:20px;
+border-radius:12px;
+
+font-size:30px;
+
+text-align:center;
+
+width:100px;
+
+box-shadow:0 6px 15px rgba(0,0,0,0.2);
+
 }
 
 
 /* SELL FORM */
 
 .sell-form{
+
 background:white;
+
 width:340px;
+
 margin:40px auto;
+
 padding:25px;
+
 border-radius:12px;
 
 box-shadow:0 10px 25px rgba(0,0,0,0.2);
 
-transition:0.3s;
-}
-
-.sell-form:hover{
-transform:translateY(-5px);
 }
 
 .sell-form label{
 display:block;
 margin-top:12px;
 font-weight:bold;
-color:#333;
 }
 
 .sell-form input,
@@ -127,7 +144,14 @@ margin-top:6px;
 border-radius:6px;
 border:1px solid #ccc;
 
-font-size:14px;
+}
+
+.preview{
+
+width:100%;
+margin-top:10px;
+border-radius:10px;
+
 }
 
 
@@ -139,86 +163,75 @@ background:#c1121f;
 color:white;
 
 padding:12px;
+
 border:none;
+
 border-radius:6px;
 
 margin-top:15px;
 
-font-weight:bold;
 cursor:pointer;
 
-transition:0.3s;
+font-weight:bold;
+
 }
 
 button:hover{
 
 background:#8b0000;
-transform:scale(1.05);
 
 }
 
 
-/* SEARCH AREA */
+/* SEARCH */
 
 .search-section{
 
 text-align:center;
-padding:25px;
 
-background:rgba(255,255,255,0.9);
+background:white;
 
 margin:20px;
+
+padding:20px;
+
 border-radius:12px;
 
-box-shadow:0 6px 18px rgba(0,0,0,0.2);
 }
 
 .search-section input,
 .search-section select{
 
 padding:10px;
-margin:6px;
-
-border-radius:6px;
-border:1px solid #ccc;
+margin:5px;
 
 }
 
 
-/* MARKET GRID */
+/* MARKET */
 
 #market{
 
 display:flex;
 flex-wrap:wrap;
 justify-content:center;
+
 padding:20px;
 
 }
-
-
-/* ANIMAL CARDS */
 
 .card{
 
 background:white;
 
 width:260px;
+
 margin:15px;
 padding:15px;
 
 border-radius:12px;
 
-box-shadow:0 8px 20px rgba(0,0,0,0.2);
-
-transition:0.3s;
-}
-
-.card:hover{
-
-transform:translateY(-8px) scale(1.02);
-
-box-shadow:0 15px 30px rgba(0,0,0,0.3);
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
 
 }
 
@@ -229,32 +242,16 @@ height:180px;
 object-fit:cover;
 
 border-radius:10px;
-margin-bottom:10px;
 
 }
-
-.card h3{
-margin:5px 0;
-}
-
-.card p{
-margin:3px 0;
-color:#444;
-}
-
-
-/* FOOTER */
 
 footer{
 
-background:#000;
+background:black;
 color:white;
 
 text-align:center;
 
-padding:18px;
-margin-top:40px;
-
-font-size:14px;
+padding:15px;
 
 }
