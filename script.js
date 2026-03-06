@@ -6,8 +6,8 @@
 const SUPABASE_URL = "https://szcqgjkgmqygcbizwmoc.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Y3FnamtnbXF5Z2NiaXp3bW9jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MjA1OTksImV4cCI6MjA4ODM5NjU5OX0.v9uYMCPb4U2fdG_VYvA5h5wKdvzzaEU43xJsDth5LSI";
 
-// Create Supabase client
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Proper Supabase client initialization
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // DOM elements
 const postBtn = document.getElementById("postBtn");
@@ -40,10 +40,18 @@ postBtn.addEventListener("click", async () => {
     phone: document.getElementById("phone").value
   };
 
+  // Basic validation
+  if (!animal.name || !animal.age || !animal.price || !animal.location || !animal.phone) {
+    alert("Please fill all fields!");
+    return;
+  }
+
   try {
+    // ------------------------
     // Upload image to Supabase Storage
+    // ------------------------
     const fileName = `${Date.now()}_${file.name}`;
-    const { data: uploadData, error: uploadError } = await supabase
+    const { data: uploadData, error: uploadError } = await supabaseClient
       .storage
       .from("animals")
       .upload(fileName, file, { cacheControl: "3600", upsert: false });
@@ -51,16 +59,20 @@ postBtn.addEventListener("click", async () => {
     if (uploadError) throw uploadError;
 
     // Get public URL
-    const { data: publicUrlData } = supabase
+    const { data: publicUrlData } = supabaseClient
       .storage
       .from("animals")
       .getPublicUrl(fileName);
 
     animal.image_url = publicUrlData.publicUrl;
 
+    // ------------------------
     // Insert into database
-    const { error: dbError } = await supabase.from("animals").insert([animal]);
+    // ------------------------
+    const { error: dbError } = await supabaseClient.from("animals").insert([animal]);
     if (dbError) throw dbError;
+
+    alert("Animal posted successfully!");
 
     // Reset form
     imageInput.value = "";
@@ -75,7 +87,7 @@ postBtn.addEventListener("click", async () => {
     loadAnimals();
 
   } catch (err) {
-    console.error(err);
+    console.error("Post failed:", err);
     alert("Failed to post animal: " + err.message);
   }
 });
@@ -84,9 +96,20 @@ postBtn.addEventListener("click", async () => {
 // Load all animals
 // ------------------------
 async function loadAnimals() {
-  let { data: animals, error } = await supabase.from("animals").select("*").order("id", { ascending: false });
-  if (error) { console.error(error); return; }
-  displayAnimals(animals);
+  try {
+    let { data: animals, error } = await supabaseClient
+      .from("animals")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (error) throw error;
+
+    displayAnimals(animals);
+
+  } catch (err) {
+    console.error("Failed to load animals:", err);
+    alert("Failed to load animals: " + err.message);
+  }
 }
 
 // ------------------------
@@ -95,12 +118,16 @@ async function loadAnimals() {
 function displayAnimals(list) {
   const market = document.getElementById("market");
   market.innerHTML = "";
-  if (!list) return;
+
+  if (!list || list.length === 0) {
+    market.innerHTML = "<p>No animals posted yet.</p>";
+    return;
+  }
 
   list.forEach(a => {
     market.innerHTML += `
       <div class="card">
-        <img src="${a.image_url}">
+        <img src="${a.image_url}" alt="${a.name}">
         <h3>${a.name}</h3>
         <p>Age: ${a.age}</p>
         <p>Price: KES ${a.price}</p>
@@ -121,16 +148,21 @@ async function filterAndSearch() {
   const animalVal = document.getElementById("filterAnimal").value;
   const locationVal = document.getElementById("filterLocation").value;
 
-  let { data: animals, error } = await supabase.from("animals").select("*");
-  if (error) { console.error(error); return; }
+  try {
+    let { data: animals, error } = await supabaseClient.from("animals").select("*");
+    if (error) throw error;
 
-  animals = animals.filter(a =>
-    a.name.toLowerCase().includes(search) &&
-    (animalVal === "" || a.name === animalVal) &&
-    (locationVal === "" || a.location === locationVal)
-  );
+    animals = animals.filter(a =>
+      a.name.toLowerCase().includes(search) &&
+      (animalVal === "" || a.name === animalVal) &&
+      (locationVal === "" || a.location === locationVal)
+    );
 
-  displayAnimals(animals);
+    displayAnimals(animals);
+
+  } catch (err) {
+    console.error("Filter failed:", err);
+  }
 }
 
 // Attach search/filter events
