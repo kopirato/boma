@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Boma Market</title>
@@ -36,7 +37,9 @@
 <nav>
 
 <a href="#">Home</a>
+
 <a href="#sell">Sell Livestock</a>
+
 <a href="#market">Market</a>
 
 </nav>
@@ -46,30 +49,92 @@
 
 <h2>Buy and Sell Livestock Online</h2>
 
-<p>Cattle • Sheep • Goats • Donkeys • Poultry</p>
+<p>Cattle • Goats • Sheep • Donkeys • Poultry</p>
 
 </section>
+
 
 
 <section id="sell" class="sell-form">
 
-<h2>Sell Your Animal</h2>
+<h2>Sell Your Livestock</h2>
 
-<input id="name" placeholder="Animal Type">
+<label>Animal Type</label>
 
-<input id="age" placeholder="Age">
+<select id="name">
 
-<input id="price" placeholder="Price (KES)">
+<option value="">Select Animal</option>
 
-<input id="location" placeholder="Location">
+<option>Cattle</option>
 
-<input id="phone" placeholder="Phone (254...)">
+<option>Goat</option>
 
-<input id="image" placeholder="Image URL">
+<option>Sheep</option>
+
+<option>Dorper Sheep</option>
+
+<option>Donkey</option>
+
+<option>Poultry</option>
+
+</select>
+
+
+<label>Age</label>
+
+<select id="age">
+
+<option value="">Select Age</option>
+
+<option>3 months</option>
+
+<option>6 months</option>
+
+<option>1 year</option>
+
+<option>2 years</option>
+
+<option>3+ years</option>
+
+</select>
+
+
+<label>Price (KES)</label>
+
+<input id="price" type="number" placeholder="Enter price">
+
+
+<label>Location</label>
+
+<select id="location">
+
+<option>Kajiado</option>
+
+<option>Narok</option>
+
+<option>Samburu</option>
+
+<option>Laikipia</option>
+
+<option>Tanzania Border</option>
+
+</select>
+
+
+<label>Phone Number</label>
+
+<input id="phone" placeholder="2547XXXXXXXX">
+
+
+<label>Upload Animal Photo</label>
+
+<input id="imageUpload" type="file" accept="image/*">
+
 
 <button onclick="addAnimal()">Post Animal</button>
 
 </section>
+
 
 
 <section>
@@ -86,6 +151,7 @@
 <p>Boma Market © 2026</p>
 
 </footer>
+
 
 <script src="script.js"></script>
 
