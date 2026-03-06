@@ -1,18 +1,14 @@
-// ------------------------
-// BOMA MARKET PRO - SUPABASE JS
-// ------------------------
-
-// Wait for DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", function() {
 
-  // Supabase project config
+  // ------------------------
+  // Supabase setup
+  // ------------------------
   const SUPABASE_URL = "https://szcqgjkgmqygcbizwmoc.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Y3FnamtnbXF5Z2NiaXp3bW9jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MjA1OTksImV4cCI6MjA4ODM5NjU5OX0.v9uYMCPb4U2fdG_VYvA5h5wKdvzzaEU43xJsDth5LSI";
 
-  // Proper Supabase client
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // DOM elements
+  // DOM Elements
   const postBtn = document.getElementById("postBtn");
   const previewImg = document.getElementById("preview");
   const imageInput = document.getElementById("imageUpload");
@@ -29,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // ------------------------
-  // Post a new animal
+  // Post new animal
   // ------------------------
   postBtn.addEventListener("click", async () => {
     const file = imageInput.files[0];
@@ -43,7 +39,6 @@ document.addEventListener("DOMContentLoaded", function() {
       phone: document.getElementById("phone").value
     };
 
-    // Basic validation
     if (!animal.name || !animal.age || !animal.price || !animal.location || !animal.phone) {
       alert("Please fill all fields!");
       return;
@@ -51,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     try {
       // ------------------------
-      // Upload image
+      // Upload image to Supabase Storage
       // ------------------------
       const fileName = `${Date.now()}_${file.name}`;
       const { data: uploadData, error: uploadError } = await supabaseClient
@@ -61,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
       if (uploadError) throw uploadError;
 
-      // Get public URL
       const { data: publicUrlData } = supabaseClient
         .storage
         .from("animals")
@@ -70,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
       animal.image_url = publicUrlData.publicUrl;
 
       // ------------------------
-      // Insert into table
+      // Insert into Supabase table
       // ------------------------
       const { error: dbError } = await supabaseClient.from("animals").insert([animal]);
       if (dbError) throw dbError;
@@ -86,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
       document.getElementById("location").value = "";
       document.getElementById("phone").value = "";
 
-      loadAnimals(); // Reload all animals
+      loadAnimals();
 
     } catch (err) {
       console.error("Post failed:", err);
@@ -95,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   // ------------------------
-  // Load animals
+  // Load animals from Supabase
   // ------------------------
   async function loadAnimals() {
     try {
@@ -142,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // ------------------------
-  // Search & filter
+  // Filters & search
   // ------------------------
   async function filterAndSearch() {
     const search = document.getElementById("search").value.toLowerCase();
@@ -170,8 +164,7 @@ document.addEventListener("DOMContentLoaded", function() {
   document.getElementById("filterAnimal").addEventListener("change", filterAndSearch);
   document.getElementById("filterLocation").addEventListener("change", filterAndSearch);
 
-  // ------------------------
   // Initial load
-  // ------------------------
   loadAnimals();
+
 });
