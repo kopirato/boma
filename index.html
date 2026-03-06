@@ -1,19 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boma Market</title>
-
 <link rel="stylesheet" href="style.css">
 
-</head>
+<!-- Firebase SDK -->
+<script type="module">
+  // Firebase 10 modular import
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-database.js";
+  import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-storage.js";
 
+  // Your Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDC6SdxI_vTZcwDYB_PFDe3IxC5O8eN0sI",
+    authDomain: "boma-df6e6.firebaseapp.com",
+    databaseURL: "https://boma-df6e6-default-rtdb.firebaseio.com",
+    projectId: "boma-df6e6",
+    storageBucket: "boma-df6e6.appspot.com",
+    messagingSenderId: "880769903150",
+    appId: "1:880769903150:web:a260dde02bc13b4a91cdbf",
+    measurementId: "G-NF39XTLK4C"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const storage = getStorage(app);
+
+  window.addAnimal = function() {
+    const fileInput = document.getElementById("imageUpload");
+    const file = fileInput.files[0];
+    if (!file) { alert("Please select an image"); return; }
+
+    const animal = {
+      name: document.getElementById("name").value,
+      age: document.getElementById("age").value,
+      price: document.getElementById("price").value,
+      location: document.getElementById("location").value,
+      phone: document.getElementById("phone").value
+    };
+
+    const storageReference = sRef(storage, "animals/" + Date.now() + "_" + file.name);
+    uploadBytes(storageReference, file).then(snapshot => {
+      getDownloadURL(snapshot.ref).then(url => {
+        animal.image = url;
+        push(ref(db, "animals/"), animal);
+        fileInput.value = "";
+        document.getElementById("preview").src = "";
+      });
+    });
+  };
+
+  window.previewImage = function() {
+    const file = document.getElementById("imageUpload").files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) { document.getElementById("preview").src = e.target.result; };
+    reader.readAsDataURL(file);
+  };
+
+  window.searchAnimals = function() {
+    const search = document.getElementById("search").value.toLowerCase();
+    const animalFilter = document.getElementById("filterAnimal").value;
+    const locationFilter = document.getElementById("filterLocation").value;
+
+    onValue(ref(db, "animals/"), snapshot => {
+      const data = snapshot.val();
+      const list = [];
+      for (let key in data) {
+        list.push(data[key]);
+      }
+      const filtered = list.filter(a =>
+        a.name.toLowerCase().includes(search) &&
+        (animalFilter === "" || a.name === animalFilter) &&
+        (locationFilter === "" || a.location === locationFilter)
+      );
+      displayAnimals(filtered);
+    });
+  };
+
+  function displayAnimals(list) {
+    const market = document.getElementById("market");
+    market.innerHTML = "";
+    list.forEach(a => {
+      market.innerHTML += `
+      <div class="card">
+        <img src="${a.image}">
+        <h3>${a.name}</h3>
+        <p>Age: ${a.age}</p>
+        <p>Price: KES ${a.price}</p>
+        <p>Location: ${a.location}</p>
+        <a href="https://wa.me/${a.phone}" target="_blank"><button>Contact Seller</button></a>
+      </div>
+      `;
+    });
+  }
+
+  // Load all animals on page load
+  onValue(ref(db, "animals/"), snapshot => {
+    const data = snapshot.val();
+    const list = [];
+    for (let key in data) list.push(data[key]);
+    displayAnimals(list);
+  });
+</script>
+
+</head>
 <body>
 
 <header>
-
 <div class="logo-area">
 <img src="boma.png" class="logo">
 <div>
@@ -21,49 +118,31 @@
 <p>From the Boma to the Market</p>
 </div>
 </div>
-
 </header>
 
-
 <nav>
-
 <a href="#">Home</a>
 <a href="#sell">Sell</a>
 <a href="#market">Market</a>
-
 </nav>
 
-
 <section class="hero">
-
 <h2>East Africa's Digital Livestock Marketplace</h2>
-
 <p>Buy and sell livestock directly from the Boma</p>
-
 </section>
 
-
-
 <section class="categories">
-
 <div class="cat">🐄<p>Cattle</p></div>
 <div class="cat">🐐<p>Goats</p></div>
 <div class="cat">🐑<p>Sheep</p></div>
 <div class="cat">🐓<p>Poultry</p></div>
 <div class="cat">🐴<p>Donkeys</p></div>
-
 </section>
 
-
-
 <section id="sell" class="sell-form">
-
 <h2>Sell Livestock</h2>
-
 <label>Animal Type</label>
-
 <select id="name">
-
 <option value="">Select</option>
 <option>Cattle</option>
 <option>Goat</option>
@@ -71,65 +150,44 @@
 <option>Dorper Sheep</option>
 <option>Donkey</option>
 <option>Poultry</option>
-
 </select>
 
-
 <label>Age</label>
-
 <select id="age">
-
 <option value="">Select</option>
 <option>3 months</option>
 <option>6 months</option>
 <option>1 year</option>
 <option>2 years</option>
 <option>3+ years</option>
-
 </select>
-
 
 <label>Price (KES)</label>
 <input id="price" type="number" placeholder="Enter price">
 
-
 <label>Location</label>
-
 <select id="location">
-
 <option>Kajiado</option>
 <option>Narok</option>
 <option>Samburu</option>
 <option>Laikipia</option>
 <option>Tanzania Border</option>
-
 </select>
-
 
 <label>Phone</label>
 <input id="phone" placeholder="2547XXXXXXXX">
 
-
 <label>Upload Photo</label>
 <input id="imageUpload" type="file" accept="image/*" onchange="previewImage()">
-
 <img id="preview" class="preview">
 
-
 <button onclick="addAnimal()">Post Animal</button>
-
 </section>
 
-
-
 <section class="search-section">
-
 <h2>Search Livestock</h2>
-
 <input id="search" placeholder="Search animal..." onkeyup="searchAnimals()">
-
 <select id="filterAnimal" onchange="searchAnimals()">
-
 <option value="">All Animals</option>
 <option>Cattle</option>
 <option>Goat</option>
@@ -137,38 +195,23 @@
 <option>Dorper Sheep</option>
 <option>Donkey</option>
 <option>Poultry</option>
-
 </select>
 
-
 <select id="filterLocation" onchange="searchAnimals()">
-
 <option value="">All Locations</option>
 <option>Kajiado</option>
 <option>Narok</option>
 <option>Samburu</option>
 <option>Laikipia</option>
 <option>Tanzania Border</option>
-
 </select>
-
 </section>
 
-
-
-<section id="market">
-
-</section>
-
+<section id="market"></section>
 
 <footer>
-
 <p>Boma Market © 2026</p>
-
 </footer>
-
-
-<script src="script.js"></script>
 
 </body>
 </html>
