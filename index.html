@@ -5,8 +5,185 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Boma Market PRO</title>
 
-  <!-- Basic Styling -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Inline CSS for Minimalistic, Lively, and Beautiful Design -->
+  <style>
+    /* Global Styles - Minimalistic, Clean, and Lively */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom, #f0f8ff, #87ceeb); /* Beautiful sky-like gradient for East African savanna feel */
+      color: #333;
+      line-height: 1.6;
+      animation: fadeIn 1s ease-in; /* Lively fade-in animation */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    header {
+      background: #228b22; /* Green for nature/livestock theme */
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      animation: slideDown 0.5s ease;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); }
+      to { transform: translateY(0); }
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo {
+      width: 50px;
+      margin-right: 1rem;
+    }
+
+    nav {
+      background: #006400;
+      padding: 0.5rem;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      transition: color 0.3s; /* Lively hover effect */
+    }
+
+    nav a:hover {
+      color: #ffd700;
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Minimalistic shadow */
+      margin-bottom: 1rem;
+      animation: popIn 0.5s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.95); opacity: 0.8; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .hero {
+      background: url('https://source.unsplash.com/random/1200x400/?savanna,livestock') no-repeat center/cover; /* Beautiful background image */
+      color: white;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .categories {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .cat {
+      text-align: center;
+      font-size: 2rem;
+      margin: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s; /* Lively hover */
+    }
+
+    .cat:hover {
+      transform: scale(1.1);
+    }
+
+    .sell-form label {
+      display: block;
+      margin: 0.5rem 0 0.2rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background: #228b22;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #006400;
+    }
+
+    .preview {
+      max-width: 200px;
+      margin: 1rem 0;
+      display: block;
+    }
+
+    #market .animal-card {
+      background: #f9f9f9;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+    }
+
+    #market .animal-card img {
+      max-width: 150px;
+      margin-right: 1rem;
+    }
+
+    #market .animal-card .info {
+      flex: 1;
+    }
+
+    footer {
+      background: #006400;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: auto;
+    }
+
+    /* Additional Styles for New Features */
+    .user-profile, .cart-section, .reviews-section, .wishlist-section, .notifications-section, .ai-recommendations, .vr-preview, .blockchain-transactions, .iot-tracking, .ai-singularity {
+      margin-top: 2rem;
+    }
+
+    .feature-placeholder {
+      background: #e0f7fa;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+  </style>
 
   <!-- Supabase JS Library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.29.0/dist/supabase.min.js"></script>
@@ -27,6 +204,9 @@
   <a href="#">Home</a>
   <a href="#sell">Sell</a>
   <a href="#market">Market</a>
+  <a href="#cart">Cart</a>
+  <a href="#profile">Profile</a>
+  <a href="#ai-features">AI Features</a>
 </nav>
 
 <!-- Auth Section -->
@@ -44,7 +224,7 @@
 
 <section class="hero">
   <h2>East Africa's Digital Livestock Marketplace</h2>
-  <p>Buy and sell livestock directly from the Boma</p>
+  <p>Buy and sell livestock directly from the Boma with modern and futuristic features</p>
 </section>
 
 <section class="categories">
@@ -55,6 +235,7 @@
   <div class="cat">🐴<p>Donkeys</p></div>
 </section>
 
+<!-- Sell Section with Enhanced Animal Information -->
 <section id="sell" class="sell-form">
   <h2>Sell Livestock</h2>
 
@@ -69,6 +250,9 @@
     <option>Poultry</option>
   </select>
 
+  <label>Breed (Detailed Info)</label>
+  <input id="breed" type="text" placeholder="e.g., Boran Cattle, Galla Goat">
+
   <label>Age</label>
   <select id="age">
     <option value="">Select</option>
@@ -78,6 +262,20 @@
     <option>2 years</option>
     <option>3+ years</option>
   </select>
+
+  <label>Weight (kg)</label>
+  <input id="weight" type="number" placeholder="Enter weight">
+
+  <label>Health Status</label>
+  <select id="health">
+    <option value="">Select</option>
+    <option>Healthy</option>
+    <option>Vaccinated</option>
+    <option>Under Treatment</option>
+  </select>
+
+  <label>Description (All Animal Info)</label>
+  <textarea id="description" placeholder="Provide detailed info: color, temperament, breeding history, etc."></textarea>
 
   <label>Price (KES)</label>
   <input id="price" type="number" placeholder="Enter price">
@@ -101,6 +299,7 @@
   <button id="postBtn">Post Animal</button>
 </section>
 
+<!-- Search Section -->
 <section class="search-section">
   <h2>Search Livestock</h2>
   <input id="search" placeholder="Search animal...">
@@ -124,18 +323,160 @@
   </select>
 </section>
 
+<!-- Market Section with Enhanced Listings -->
 <section id="market">
   <h2>Livestock Market</h2>
-  <!-- Animals will be loaded here -->
+  <!-- Animals will be loaded here dynamically -->
+  <!-- Example Placeholder Card -->
+  <div class="animal-card">
+    <img src="placeholder-animal.jpg" alt="Animal">
+    <div class="info">
+      <h3>Cattle - Boran Breed</h3>
+      <p>Age: 2 years | Weight: 400kg | Health: Vaccinated | Price: 50,000 KES</p>
+      <p>Description: Strong, healthy Boran cattle from Kajiado, excellent for breeding.</p>
+      <button>Add to Cart</button>
+      <button>Add to Wishlist</button>
+      <button>Contact Seller</button>
+    </div>
+  </div>
+</section>
+
+<!-- Modern E-commerce Features -->
+
+<!-- User Profile Section -->
+<section id="profile" class="user-profile">
+  <h2>User Profile</h2>
+  <div class="feature-placeholder">
+    <p>View and edit profile, purchase history, seller ratings.</p>
+    <!-- Placeholder for dynamic content -->
+  </div>
+</section>
+
+<!-- Cart and Checkout Section -->
+<section id="cart" class="cart-section">
+  <h2>Shopping Cart</h2>
+  <div class="feature-placeholder">
+    <p>Add items to cart, view total, proceed to checkout with payment integration (e.g., M-Pesa, Stripe).</p>
+    <!-- Placeholder for cart items -->
+  </div>
+  <button>Checkout</button>
+</section>
+
+<!-- Reviews and Ratings -->
+<section class="reviews-section">
+  <h2>Reviews & Ratings</h2>
+  <div class="feature-placeholder">
+    <p>Leave reviews, rate sellers/buyers, view average ratings on listings.</p>
+  </div>
+</section>
+
+<!-- Wishlist -->
+<section class="wishlist-section">
+  <h2>Wishlist</h2>
+  <div class="feature-placeholder">
+    <p>Save favorite livestock for later purchase.</p>
+  </div>
+</section>
+
+<!-- Notifications -->
+<section class="notifications-section">
+  <h2>Notifications</h2>
+  <div class="feature-placeholder">
+    <p>Real-time alerts for new listings, price drops, messages from buyers/sellers.</p>
+  </div>
+</section>
+
+<!-- Futuristic Features (In Demand Soon) -->
+<section id="ai-features" class="ai-recommendations">
+  <h2>AI-Powered Recommendations</h2>
+  <div class="feature-placeholder">
+    <p>Using machine learning to suggest livestock based on your past searches and purchases.</p>
+  </div>
+</section>
+
+<section class="vr-preview">
+  <h2>VR Livestock Preview</h2>
+  <div class="feature-placeholder">
+    <p>Virtual reality tours of the animal in its environment (integration with VR headsets).</p>
+  </div>
+</section>
+
+<section class="blockchain-transactions">
+  <h2>Blockchain Secure Transactions</h2>
+  <div class="feature-placeholder">
+    <p>Use cryptocurrency or blockchain for tamper-proof ownership transfer and payments.</p>
+  </div>
+</section>
+
+<section class="iot-tracking">
+  <h2>IoT Livestock Tracking</h2>
+  <div class="feature-placeholder">
+    <p>Real-time GPS tracking of livestock health and location via IoT devices.</p>
+  </div>
+</section>
+
+<!-- Near-Future Features Incorporating Elon Musk's Singularity Idea -->
+<section class="ai-singularity">
+  <h2>AI Singularity Integration</h2>
+  <div class="feature-placeholder">
+    <p>Inspired by Elon Musk's vision of the singularity (merging human and AI intelligence), Boma Market PRO features an advanced AI assistant that predicts market trends, automates negotiations, and provides neural-linked decision-making tools. Future updates will include brain-computer interfaces for seamless buying/selling experiences, where AI anticipates your needs before you express them.</p>
+    <p>Predictive Pricing: AI forecasts livestock prices based on weather, demand, and global trends.</p>
+    <p>Smart Matching: AI connects buyers and sellers with perfect matches using singularity-level intelligence simulation.</p>
+  </div>
 </section>
 
 <footer>
   <p>Boma Market PRO © 2026</p>
+  <div class="contact-section">
+    <h3>Contact Developer</h3>
+    <p>Name: David Selian Kopirato</p>
+    <p>Email: <a href="mailto:davidkop18@gmail.com">davidkop18@gmail.com</a></p>
+    <p>Phone: 0742147197</p>
+  </div>
 </footer>
 
-<!-- Your JavaScript -->
+<!-- JavaScript (Placeholder for Functionality) -->
 <script>
-// script.js content goes here (see below)
+  // Supabase Initialization (Placeholder)
+  const supabase = Supabase.createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_KEY');
+
+  // Auth Handlers (Existing Logic Placeholder)
+  document.getElementById('signupBtn').addEventListener('click', () => {
+    // Sign up logic
+  });
+
+  document.getElementById('loginBtn').addEventListener('click', () => {
+    // Login logic
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    // Logout logic
+  });
+
+  // Post Animal (Enhanced with More Fields)
+  document.getElementById('postBtn').addEventListener('click', () => {
+    // Gather all fields including new ones: breed, weight, health, description
+    // Upload to Supabase
+  });
+
+  // Image Preview
+  document.getElementById('imageUpload').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      document.getElementById('preview').src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Load Market Animals (Enhanced with Full Info)
+  async function loadAnimals() {
+    // Fetch from Supabase and render cards with all details
+  }
+
+  // Additional JS for New Features (Placeholders)
+  // Cart, Wishlist, Reviews, AI, etc., would require more backend integration
 </script>
+
 </body>
 </html>
