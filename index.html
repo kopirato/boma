@@ -1,482 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boma Market PRO</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Inline CSS for Minimalistic, Lively, and Beautiful Design -->
-  <style>
-    /* Global Styles - Minimalistic, Clean, and Lively */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Arial', sans-serif;
-    }
+<title>Boma Market</title>
 
-    body {
-      background: linear-gradient(to bottom, #f0f8ff, #87ceeb); /* Beautiful sky-like gradient for East African savanna feel */
-      color: #333;
-      line-height: 1.6;
-      animation: fadeIn 1s ease-in; /* Lively fade-in animation */
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+<style>
 
-    header {
-      background: #228b22; /* Green for nature/livestock theme */
-      color: white;
-      padding: 1rem;
-      text-align: center;
-      animation: slideDown 0.5s ease;
-    }
+/* GLOBAL */
 
-    @keyframes slideDown {
-      from { transform: translateY(-50px); }
-      to { transform: translateY(0); }
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-    .logo-area {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+body{
+font-family:'Inter',sans-serif;
+color:white;
+background:
+linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.55)),
+url("https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=3840&q=100");
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+min-height:100vh;
+}
 
-    .logo {
-      width: 50px;
-      margin-right: 1rem;
-    }
+/* HEADER */
 
-    nav {
-      background: #006400;
-      padding: 0.5rem;
-      text-align: center;
-    }
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:25px 80px;
+backdrop-filter:blur(10px);
+background:rgba(0,0,0,0.25);
+}
 
-    nav a {
-      color: white;
-      margin: 0 1rem;
-      text-decoration: none;
-      transition: color 0.3s; /* Lively hover effect */
-    }
+.logo{
+font-family:'Poppins';
+font-size:24px;
+font-weight:600;
+letter-spacing:1px;
+}
 
-    nav a:hover {
-      color: #ffd700;
-    }
+/* NAV */
 
-    section {
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Minimalistic shadow */
-      margin-bottom: 1rem;
-      animation: popIn 0.5s ease;
-    }
+nav a{
+margin-left:30px;
+text-decoration:none;
+color:white;
+font-weight:500;
+opacity:.9;
+transition:.3s;
+}
 
-    @keyframes popIn {
-      from { transform: scale(0.95); opacity: 0.8; }
-      to { transform: scale(1); opacity: 1; }
-    }
+nav a:hover{
+opacity:1;
+color:#cfa44a;
+}
 
-    .hero {
-      background: url('https://source.unsplash.com/random/1200x400/?savanna,livestock') no-repeat center/cover; /* Beautiful background image */
-      color: white;
-      text-align: center;
-      padding: 4rem 2rem;
-    }
+/* HERO */
 
-    .categories {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-    }
+.hero{
+height:80vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:40px;
+}
 
-    .cat {
-      text-align: center;
-      font-size: 2rem;
-      margin: 1rem;
-      cursor: pointer;
-      transition: transform 0.3s; /* Lively hover */
-    }
+.hero h1{
+font-size:60px;
+font-family:'Poppins';
+margin-bottom:20px;
+}
 
-    .cat:hover {
-      transform: scale(1.1);
-    }
+.hero p{
+font-size:20px;
+max-width:600px;
+opacity:.9;
+}
 
-    .sell-form label {
-      display: block;
-      margin: 0.5rem 0 0.2rem;
-    }
+/* BUTTON */
 
-    input, select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
+.btn{
+margin-top:30px;
+padding:14px 34px;
+border:none;
+border-radius:40px;
+background:#cfa44a;
+color:black;
+font-weight:600;
+cursor:pointer;
+transition:.3s;
+}
 
-    button {
-      background: #228b22;
-      color: white;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
 
-    button:hover {
-      background: #006400;
-    }
+/* SECTION CONTAINER */
 
-    .preview {
-      max-width: 200px;
-      margin: 1rem 0;
-      display: block;
-    }
+.container{
+max-width:1200px;
+margin:auto;
+padding:80px 40px;
+}
 
-    #market .animal-card {
-      background: #f9f9f9;
-      padding: 1rem;
-      margin: 1rem 0;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      display: flex;
-      align-items: center;
-    }
+/* CARD GRID */
 
-    #market .animal-card img {
-      max-width: 150px;
-      margin-right: 1rem;
-    }
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:30px;
+}
 
-    #market .animal-card .info {
-      flex: 1;
-    }
+/* CATEGORY CARD */
 
-    footer {
-      background: #006400;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: auto;
-    }
+.card{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:20px;
+text-align:center;
+transition:.35s;
+cursor:pointer;
+}
 
-    /* Additional Styles for New Features */
-    .user-profile, .cart-section, .reviews-section, .wishlist-section, .notifications-section, .ai-recommendations, .vr-preview, .blockchain-transactions, .iot-tracking, .ai-singularity {
-      margin-top: 2rem;
-    }
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
 
-    .feature-placeholder {
-      background: #e0f7fa;
-      padding: 1rem;
-      border-radius: 4px;
-      margin-bottom: 1rem;
-    }
-  </style>
+.card span{
+font-size:50px;
+}
 
-  <!-- Supabase JS Library -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.29.0/dist/supabase.min.js"></script>
+.card h3{
+margin-top:10px;
+}
+
+/* MARKET CARD */
+
+.animal-card{
+background:white;
+color:#222;
+border-radius:18px;
+overflow:hidden;
+transition:.35s;
+}
+
+.animal-card:hover{
+transform:translateY(-6px);
+box-shadow:0 20px 40px rgba(0,0,0,.25);
+}
+
+.animal-card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.animal-info{
+padding:20px;
+}
+
+.price{
+color:#1f6f3d;
+font-weight:600;
+font-size:18px;
+}
+
+/* FORM */
+
+.form{
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(20px);
+padding:40px;
+border-radius:20px;
+}
+
+.form input,
+.form select,
+.form textarea{
+
+width:100%;
+padding:12px;
+margin-top:10px;
+margin-bottom:18px;
+border-radius:10px;
+border:none;
+}
+
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:40px;
+opacity:.8;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:40px;
+}
+
+header{
+padding:20px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo-area">
-    <img src="boma.png" class="logo" alt="Boma Market Logo">
-    <div>
-      <h1>BOMA MARKET PRO</h1>
-      <p>From the Boma to the Market</p>
-    </div>
-  </div>
-</header>
+
+<div class="logo">BOMA MARKET</div>
 
 <nav>
-  <a href="#">Home</a>
-  <a href="#sell">Sell</a>
-  <a href="#market">Market</a>
-  <a href="#cart">Cart</a>
-  <a href="#profile">Profile</a>
-  <a href="#ai-features">AI Features</a>
+<a href="#">Home</a>
+<a href="#market">Market</a>
+<a href="#sell">Sell</a>
+<a href="#profile">Profile</a>
 </nav>
 
-<!-- Auth Section -->
-<section class="auth-section">
-  <h2>Account</h2>
-  <input type="email" id="email" placeholder="Email" required>
-  <input type="password" id="password" placeholder="Password" required>
-  <div class="auth-buttons">
-    <button id="signupBtn">Sign Up</button>
-    <button id="loginBtn">Log In</button>
-    <button id="logoutBtn" style="display:none;">Log Out</button>
-  </div>
-  <p id="authStatus">Not logged in — sign in to post livestock</p>
-</section>
+</header>
 
 <section class="hero">
-  <h2>East Africa's Digital Livestock Marketplace</h2>
-  <p>Buy and sell livestock directly from the Boma with modern and futuristic features</p>
+
+<h1>Livestock Trade Reimagined</h1>
+
+<p>
+Buy and sell cattle, goats, sheep and poultry directly from the boma with trust and transparency.
+</p>
+
+<button class="btn">Explore Market</button>
+
 </section>
 
-<section class="categories">
-  <div class="cat">🐄<p>Cattle</p></div>
-  <div class="cat">🐐<p>Goats</p></div>
-  <div class="cat">🐑<p>Sheep</p></div>
-  <div class="cat">🐓<p>Poultry</p></div>
-  <div class="cat">🐴<p>Donkeys</p></div>
+<section class="container">
+
+<h2>Categories</h2>
+
+<br>
+
+<div class="grid">
+
+<div class="card">
+<span>🐄</span>
+<h3>Cattle</h3>
+</div>
+
+<div class="card">
+<span>🐐</span>
+<h3>Goats</h3>
+</div>
+
+<div class="card">
+<span>🐑</span>
+<h3>Sheep</h3>
+</div>
+
+<div class="card">
+<span>🐓</span>
+<h3>Poultry</h3>
+</div>
+
+</div>
+
 </section>
 
-<!-- Sell Section with Enhanced Animal Information -->
-<section id="sell" class="sell-form">
-  <h2>Sell Livestock</h2>
 
-  <label>Animal Type</label>
-  <select id="name">
-    <option value="">Select</option>
-    <option>Cattle</option>
-    <option>Goat</option>
-    <option>Sheep</option>
-    <option>Dorper Sheep</option>
-    <option>Donkey</option>
-    <option>Poultry</option>
-  </select>
+<section id="market" class="container">
 
-  <label>Breed (Detailed Info)</label>
-  <input id="breed" type="text" placeholder="e.g., Boran Cattle, Galla Goat">
+<h2>Marketplace</h2>
 
-  <label>Age</label>
-  <select id="age">
-    <option value="">Select</option>
-    <option>3 months</option>
-    <option>6 months</option>
-    <option>1 year</option>
-    <option>2 years</option>
-    <option>3+ years</option>
-  </select>
+<br>
 
-  <label>Weight (kg)</label>
-  <input id="weight" type="number" placeholder="Enter weight">
+<div class="grid">
 
-  <label>Health Status</label>
-  <select id="health">
-    <option value="">Select</option>
-    <option>Healthy</option>
-    <option>Vaccinated</option>
-    <option>Under Treatment</option>
-  </select>
+<div class="animal-card">
 
-  <label>Description (All Animal Info)</label>
-  <textarea id="description" placeholder="Provide detailed info: color, temperament, breeding history, etc."></textarea>
+<img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e">
 
-  <label>Price (KES)</label>
-  <input id="price" type="number" placeholder="Enter price">
+<div class="animal-info">
 
-  <label>Location</label>
-  <select id="location">
-    <option>Kajiado</option>
-    <option>Narok</option>
-    <option>Samburu</option>
-    <option>Laikipia</option>
-    <option>Tanzania Border</option>
-  </select>
+<h3>Boran Bull</h3>
 
-  <label>Phone (format: 2547XXXXXXXX)</label>
-  <input id="phone" placeholder="2547XXXXXXXX">
+<p>Age: 2 Years</p>
 
-  <label>Upload Photo</label>
-  <input id="imageUpload" type="file" accept="image/*">
-  <img id="preview" class="preview" alt="Image preview">
+<p class="price">KES 50,000</p>
 
-  <button id="postBtn">Post Animal</button>
+<button class="btn">Contact Seller</button>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<!-- Search Section -->
-<section class="search-section">
-  <h2>Search Livestock</h2>
-  <input id="search" placeholder="Search animal...">
-  <select id="filterAnimal">
-    <option value="">All Animals</option>
-    <option>Cattle</option>
-    <option>Goat</option>
-    <option>Sheep</option>
-    <option>Dorper Sheep</option>
-    <option>Donkey</option>
-    <option>Poultry</option>
-  </select>
 
-  <select id="filterLocation">
-    <option value="">All Locations</option>
-    <option>Kajiado</option>
-    <option>Narok</option>
-    <option>Samburu</option>
-    <option>Laikipia</option>
-    <option>Tanzania Border</option>
-  </select>
-</section>
+<section id="sell" class="container">
 
-<!-- Market Section with Enhanced Listings -->
-<section id="market">
-  <h2>Livestock Market</h2>
-  <!-- Animals will be loaded here dynamically -->
-  <!-- Example Placeholder Card -->
-  <div class="animal-card">
-    <img src="placeholder-animal.jpg" alt="Animal">
-    <div class="info">
-      <h3>Cattle - Boran Breed</h3>
-      <p>Age: 2 years | Weight: 400kg | Health: Vaccinated | Price: 50,000 KES</p>
-      <p>Description: Strong, healthy Boran cattle from Kajiado, excellent for breeding.</p>
-      <button>Add to Cart</button>
-      <button>Add to Wishlist</button>
-      <button>Contact Seller</button>
-    </div>
-  </div>
-</section>
+<h2>Sell Livestock</h2>
 
-<!-- Modern E-commerce Features -->
+<br>
 
-<!-- User Profile Section -->
-<section id="profile" class="user-profile">
-  <h2>User Profile</h2>
-  <div class="feature-placeholder">
-    <p>View and edit profile, purchase history, seller ratings.</p>
-    <!-- Placeholder for dynamic content -->
-  </div>
-</section>
+<div class="form">
 
-<!-- Cart and Checkout Section -->
-<section id="cart" class="cart-section">
-  <h2>Shopping Cart</h2>
-  <div class="feature-placeholder">
-    <p>Add items to cart, view total, proceed to checkout with payment integration (e.g., M-Pesa, Stripe).</p>
-    <!-- Placeholder for cart items -->
-  </div>
-  <button>Checkout</button>
-</section>
+<input placeholder="Animal Type">
 
-<!-- Reviews and Ratings -->
-<section class="reviews-section">
-  <h2>Reviews & Ratings</h2>
-  <div class="feature-placeholder">
-    <p>Leave reviews, rate sellers/buyers, view average ratings on listings.</p>
-  </div>
-</section>
+<input placeholder="Breed">
 
-<!-- Wishlist -->
-<section class="wishlist-section">
-  <h2>Wishlist</h2>
-  <div class="feature-placeholder">
-    <p>Save favorite livestock for later purchase.</p>
-  </div>
-</section>
+<input placeholder="Age">
 
-<!-- Notifications -->
-<section class="notifications-section">
-  <h2>Notifications</h2>
-  <div class="feature-placeholder">
-    <p>Real-time alerts for new listings, price drops, messages from buyers/sellers.</p>
-  </div>
-</section>
+<input placeholder="Weight">
 
-<!-- Futuristic Features (In Demand Soon) -->
-<section id="ai-features" class="ai-recommendations">
-  <h2>AI-Powered Recommendations</h2>
-  <div class="feature-placeholder">
-    <p>Using machine learning to suggest livestock based on your past searches and purchases.</p>
-  </div>
-</section>
+<input placeholder="Price">
 
-<section class="vr-preview">
-  <h2>VR Livestock Preview</h2>
-  <div class="feature-placeholder">
-    <p>Virtual reality tours of the animal in its environment (integration with VR headsets).</p>
-  </div>
-</section>
+<textarea placeholder="Description"></textarea>
 
-<section class="blockchain-transactions">
-  <h2>Blockchain Secure Transactions</h2>
-  <div class="feature-placeholder">
-    <p>Use cryptocurrency or blockchain for tamper-proof ownership transfer and payments.</p>
-  </div>
-</section>
+<button class="btn">Post Listing</button>
 
-<section class="iot-tracking">
-  <h2>IoT Livestock Tracking</h2>
-  <div class="feature-placeholder">
-    <p>Real-time GPS tracking of livestock health and location via IoT devices.</p>
-  </div>
-</section>
+</div>
 
-<!-- Near-Future Features Incorporating Elon Musk's Singularity Idea -->
-<section class="ai-singularity">
-  <h2>AI Singularity Integration</h2>
-  <div class="feature-placeholder">
-    <p>Inspired by Elon Musk's vision of the singularity (merging human and AI intelligence), Boma Market PRO features an advanced AI assistant that predicts market trends, automates negotiations, and provides neural-linked decision-making tools. Future updates will include brain-computer interfaces for seamless buying/selling experiences, where AI anticipates your needs before you express them.</p>
-    <p>Predictive Pricing: AI forecasts livestock prices based on weather, demand, and global trends.</p>
-    <p>Smart Matching: AI connects buyers and sellers with perfect matches using singularity-level intelligence simulation.</p>
-  </div>
 </section>
 
 <footer>
-  <p>Boma Market PRO © 2026</p>
-  <div class="contact-section">
-    <h3>Contact Developer</h3>
-    <p>Name: David Selian Kopirato</p>
-    <p>Email: <a href="mailto:davidkop18@gmail.com">davidkop18@gmail.com</a></p>
-    <p>Phone: 0742147197</p>
-  </div>
+
+<p>Boma Market © 2026</p>
+
 </footer>
-
-<!-- JavaScript (Placeholder for Functionality) -->
-<script>
-  // Supabase Initialization (Placeholder)
-  const supabase = Supabase.createClient('YOUR_SUPABASE_URL', 'YOUR_SUPABASE_KEY');
-
-  // Auth Handlers (Existing Logic Placeholder)
-  document.getElementById('signupBtn').addEventListener('click', () => {
-    // Sign up logic
-  });
-
-  document.getElementById('loginBtn').addEventListener('click', () => {
-    // Login logic
-  });
-
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    // Logout logic
-  });
-
-  // Post Animal (Enhanced with More Fields)
-  document.getElementById('postBtn').addEventListener('click', () => {
-    // Gather all fields including new ones: breed, weight, health, description
-    // Upload to Supabase
-  });
-
-  // Image Preview
-  document.getElementById('imageUpload').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      document.getElementById('preview').src = event.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-
-  // Load Market Animals (Enhanced with Full Info)
-  async function loadAnimals() {
-    // Fetch from Supabase and render cards with all details
-  }
-
-  // Additional JS for New Features (Placeholders)
-  // Cart, Wishlist, Reviews, AI, etc., would require more backend integration
-</script>
 
 </body>
 </html>
