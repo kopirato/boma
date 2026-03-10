@@ -1,235 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Boma Market PRO</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter;
+}
+
+body{
+display:flex;
+background:#f6f7fb;
+color:#222;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:240px;
+background:white;
+border-right:1px solid #e5e5e5;
+padding:25px;
+position:fixed;
+height:100%;
+}
+
+.logo{
+font-size:20px;
+font-weight:600;
+margin-bottom:40px;
+}
+
+.sidebar a{
+display:block;
+padding:12px;
+margin-bottom:6px;
+border-radius:8px;
+text-decoration:none;
+color:#333;
+}
+
+.sidebar a:hover{
+background:#f1f2f6;
+}
+
+/* MAIN */
+
+.main{
+margin-left:240px;
+flex:1;
+}
+
+/* TOPBAR */
+
+.topbar{
+height:70px;
+background:white;
+border-bottom:1px solid #e5e5e5;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 30px;
+}
+
+.search{
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
+width:260px;
+}
+
+/* CONTAINER */
+
+.container{
+padding:30px;
+}
+
+/* DASHBOARD CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+border:1px solid #eee;
+}
+
+.card h3{
+font-size:14px;
+color:#777;
+}
+
+.card p{
+font-size:22px;
+font-weight:600;
+margin-top:10px;
+}
+
+/* TABLE */
+
+.table{
+background:white;
+border-radius:10px;
+border:1px solid #eee;
+overflow:hidden;
+margin-bottom:30px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:14px;
+border-bottom:1px solid #f1f1f1;
+}
+
+th{
+background:#fafafa;
+}
+
+/* BUTTON */
+
+button{
+padding:7px 14px;
+border:none;
+border-radius:6px;
+background:#008060;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#006e52;
+}
+
+/* FORM */
+
+.form{
+background:white;
+padding:25px;
+border-radius:10px;
+border:1px solid #eee;
+}
+
+.form input,
+.form select,
+.form textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+margin-bottom:15px;
+border:1px solid #ddd;
+border-radius:6px;
+}
+
+/* CART */
+
+.panel{
+background:white;
+border:1px solid #eee;
+padding:20px;
+border-radius:10px;
+margin-top:20px;
+}
+
+.preview{
+max-width:120px;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">Boma Market</div>
+
+<a>Dashboard</a>
+<a>Orders</a>
+<a>Livestock</a>
+<a>Customers</a>
+<a>Analytics</a>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<input class="search" placeholder="Search livestock">
+
+<div>
+
+<button id="loginBtn">Login</button>
+<button id="logoutBtn">Logout</button>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<!-- DASHBOARD -->
+
+<div class="cards">
+
+<div class="card">
+<h3>Total Listings</h3>
+<p>0</p>
+</div>
+
+<div class="card">
+<h3>Cart Items</h3>
+<p>0</p>
+</div>
+
+<div class="card">
+<h3>Total Value</h3>
+<p>0</p>
+</div>
+
+<div class="card">
+<h3>Wishlist</h3>
+<p>0</p>
+</div>
+
+</div>
+
+<!-- MARKET -->
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Animal</th>
+<th>Breed</th>
+<th>Age</th>
+<th>Weight</th>
+<th>Price</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody></tbody>
+
+</table>
+
+</div>
+
+<!-- SELL FORM -->
+
+<div class="form">
+
+<h3>Post Livestock</h3>
+
+<select id="name">
+<option>Cattle</option>
+<option>Goat</option>
+<option>Sheep</option>
+<option>Poultry</option>
+</select>
+
+<input id="breed" placeholder="Breed">
+
+<input id="age" placeholder="Age">
+
+<input id="weight" placeholder="Weight">
+
+<input id="price" placeholder="Price">
+
+<textarea id="description" placeholder="Description"></textarea>
+
+<input type="file" id="imageUpload">
+
+<img id="preview" class="preview">
+
+<button id="postBtn">Post Animal</button>
+
+</div>
+
+<!-- CART -->
+
+<div class="panel">
+
+<h3>Cart</h3>
+
+<div id="cartItems"></div>
+
+<button onclick="checkout()">Checkout</button>
+
+</div>
+
+<!-- WISHLIST -->
+
+<div class="panel">
+
+<h3>Wishlist</h3>
+
+<div id="wishlistItems"></div>
+
+</div>
+
+</div>
+
+</div>
+
 <script>
 
-/* -----------------------------
-SIMPLE LOCAL DATABASE
---------------------------------*/
+/* DATABASE */
 
-let animals = JSON.parse(localStorage.getItem("animals")) || []
-let loggedIn = localStorage.getItem("loggedIn") || false
+let db={
 
-
-/* -----------------------------
-AUTH BUTTONS
---------------------------------*/
-
-const loginBtn = document.getElementById("loginBtn")
-const logoutBtn = document.getElementById("logoutBtn")
-
-loginBtn.onclick = () => {
-
-loggedIn = true
-localStorage.setItem("loggedIn", true)
-
-alert("Logged in successfully")
+animals:JSON.parse(localStorage.getItem("animals"))||[],
+cart:JSON.parse(localStorage.getItem("cart"))||[],
+wishlist:JSON.parse(localStorage.getItem("wishlist"))||[],
+user:JSON.parse(localStorage.getItem("user"))||null
 
 }
 
-logoutBtn.onclick = () => {
+function save(){
 
-loggedIn = false
-localStorage.removeItem("loggedIn")
+localStorage.setItem("animals",JSON.stringify(db.animals))
+localStorage.setItem("cart",JSON.stringify(db.cart))
+localStorage.setItem("wishlist",JSON.stringify(db.wishlist))
+localStorage.setItem("user",JSON.stringify(db.user))
+
+}
+
+/* AUTH */
+
+loginBtn.onclick=()=>{
+
+db.user={name:"User"}
+
+save()
+
+alert("Logged in")
+
+}
+
+logoutBtn.onclick=()=>{
+
+db.user=null
+
+save()
 
 alert("Logged out")
 
 }
 
+/* IMAGE PREVIEW */
 
-/* -----------------------------
-IMAGE PREVIEW
---------------------------------*/
+imageUpload.onchange=e=>{
 
-document.getElementById("imageUpload").addEventListener("change", e => {
+let file=e.target.files[0]
 
-const file = e.target.files[0]
-const reader = new FileReader()
+let reader=new FileReader()
 
-reader.onload = event => {
-
-document.getElementById("preview").src = event.target.result
-
-}
+reader.onload=x=>preview.src=x.target.result
 
 reader.readAsDataURL(file)
 
-})
+}
 
+/* POST */
 
-/* -----------------------------
-POST ANIMAL
---------------------------------*/
+postBtn.onclick=()=>{
 
-document.getElementById("postBtn").onclick = () => {
+if(!db.user){
 
-if(!loggedIn){
+alert("Login first")
 
-alert("Login first to post livestock")
 return
 
 }
 
-let name = document.getElementById("name").value
-let breed = document.getElementById("breed").value
-let age = document.getElementById("age").value
-let weight = document.getElementById("weight").value
-let price = document.getElementById("price").value
-let description = document.getElementById("description").value
-let image = document.getElementById("preview").src
+let a={
 
-if(!name || !price){
-
-alert("Please fill required fields")
-return
+id:Date.now(),
+name:name.value,
+breed:breed.value,
+age:age.value,
+weight:weight.value,
+price:price.value,
+description:description.value,
+image:preview.src
 
 }
 
-let animal = {
+db.animals.push(a)
 
-id: Date.now(),
-name,
-breed,
-age,
-weight,
-price,
-description,
-image
+save()
+
+render()
 
 }
 
-animals.push(animal)
+/* RENDER MARKET */
 
-localStorage.setItem("animals", JSON.stringify(animals))
+function render(){
 
-renderAnimals()
+let tbody=document.querySelector("tbody")
 
-alert("Animal posted successfully")
+tbody.innerHTML=""
 
-}
+db.animals.forEach(a=>{
 
+let row=document.createElement("tr")
 
-/* -----------------------------
-RENDER MARKET TABLE
---------------------------------*/
+row.innerHTML=`
 
-function renderAnimals(){
-
-const table = document.querySelector("tbody")
-
-table.innerHTML = ""
-
-animals.forEach(animal => {
-
-let row = document.createElement("tr")
-
-row.innerHTML = `
-
-<td>${animal.name}</td>
-<td>${animal.breed}</td>
-<td>${animal.age}</td>
-<td>${animal.weight}</td>
-<td>KES ${animal.price}</td>
+<td>${a.name}</td>
+<td>${a.breed}</td>
+<td>${a.age}</td>
+<td>${a.weight}</td>
+<td>KES ${a.price}</td>
 
 <td>
-<button onclick="viewAnimal(${animal.id})">View</button>
-<button onclick="deleteAnimal(${animal.id})">Delete</button>
+
+<button onclick="viewAnimal(${a.id})">View</button>
+
+<button onclick="addCart(${a.id})">Cart</button>
+
+<button onclick="addWishlist(${a.id})">Wishlist</button>
+
+<button onclick="deleteAnimal(${a.id})">Delete</button>
+
 </td>
 
 `
 
-table.appendChild(row)
+tbody.appendChild(row)
 
 })
 
 updateStats()
 
+renderCart()
+
+renderWishlist()
+
 }
 
-
-/* -----------------------------
-VIEW ANIMAL
---------------------------------*/
+/* VIEW */
 
 function viewAnimal(id){
 
-let animal = animals.find(a => a.id === id)
+let a=db.animals.find(x=>x.id===id)
 
 alert(
 
-`Animal: ${animal.name}
-
-Breed: ${animal.breed}
-
-Age: ${animal.age}
-
-Weight: ${animal.weight}
-
-Price: KES ${animal.price}
-
-Description: ${animal.description}`
+`${a.name}
+Breed: ${a.breed}
+Age: ${a.age}
+Weight: ${a.weight}
+Price: ${a.price}`
 
 )
 
 }
 
-
-/* -----------------------------
-DELETE ANIMAL
---------------------------------*/
+/* DELETE */
 
 function deleteAnimal(id){
 
-animals = animals.filter(a => a.id !== id)
+db.animals=db.animals.filter(a=>a.id!==id)
 
-localStorage.setItem("animals", JSON.stringify(animals))
+save()
 
-renderAnimals()
+render()
 
 }
 
+/* CART */
 
-/* -----------------------------
-SEARCH LIVESTOCK
---------------------------------*/
+function addCart(id){
 
-document.querySelector(".search").addEventListener("input", e => {
+let a=db.animals.find(x=>x.id===id)
 
-let keyword = e.target.value.toLowerCase()
+db.cart.push(a)
 
-let rows = document.querySelectorAll("tbody tr")
+save()
 
-rows.forEach(row => {
+renderCart()
 
-let text = row.innerText.toLowerCase()
+}
 
-row.style.display = text.includes(keyword) ? "" : "none"
+function renderCart(){
+
+cartItems.innerHTML=""
+
+db.cart.forEach(a=>{
+
+let d=document.createElement("div")
+
+d.innerHTML=`${a.name} - ${a.price} <button onclick="removeCart(${a.id})">Remove</button>`
+
+cartItems.appendChild(d)
+
+})
+
+}
+
+/* REMOVE CART */
+
+function removeCart(id){
+
+db.cart=db.cart.filter(a=>a.id!==id)
+
+save()
+
+renderCart()
+
+}
+
+/* WISHLIST */
+
+function addWishlist(id){
+
+let a=db.animals.find(x=>x.id===id)
+
+db.wishlist.push(a)
+
+save()
+
+renderWishlist()
+
+}
+
+function renderWishlist(){
+
+wishlistItems.innerHTML=""
+
+db.wishlist.forEach(a=>{
+
+let d=document.createElement("div")
+
+d.innerHTML=`${a.name} - ${a.price} <button onclick="removeWishlist(${a.id})">Remove</button>`
+
+wishlistItems.appendChild(d)
+
+})
+
+}
+
+function removeWishlist(id){
+
+db.wishlist=db.wishlist.filter(a=>a.id!==id)
+
+save()
+
+renderWishlist()
+
+}
+
+/* CHECKOUT */
+
+function checkout(){
+
+if(db.cart.length===0){
+
+alert("Cart empty")
+
+return
+
+}
+
+alert("Order placed!")
+
+db.cart=[]
+
+save()
+
+renderCart()
+
+}
+
+/* SEARCH */
+
+document.querySelector(".search").addEventListener("input",e=>{
+
+let q=e.target.value.toLowerCase()
+
+document.querySelectorAll("tbody tr").forEach(r=>{
+
+r.style.display=r.innerText.toLowerCase().includes(q)?"":"none"
 
 })
 
 })
 
-
-/* -----------------------------
-DASHBOARD STATS
---------------------------------*/
+/* DASHBOARD */
 
 function updateStats(){
 
-document.querySelector(".cards").children[0].querySelector("p").innerText = animals.length
+document.querySelectorAll(".card p")[0].innerText=db.animals.length
+document.querySelectorAll(".card p")[1].innerText=db.cart.length
 
-document.querySelector(".cards").children[1].querySelector("p").innerText = animals.length
+let value=db.animals.reduce((s,a)=>s+Number(a.price||0),0)
 
-let revenue = animals.reduce((sum,a)=> sum + Number(a.price || 0),0)
-
-document.querySelector(".cards").children[2].querySelector("p").innerText = "KES " + revenue
-
-document.querySelector(".cards").children[3].querySelector("p").innerText = animals.length
+document.querySelectorAll(".card p")[2].innerText="KES "+value
+document.querySelectorAll(".card p")[3].innerText=db.wishlist.length
 
 }
 
-
-/* -----------------------------
-INITIAL LOAD
---------------------------------*/
-
-renderAnimals()
+render()
 
 </script>
+
+</body>
+</html>
