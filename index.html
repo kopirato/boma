@@ -4,49 +4,60 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Boma Market PRO</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-body{
-  background:linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
-             url('https://images.unsplash.com/photo-1500595046743-ee2a4a16f9c1') no-repeat center/cover;
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', sans-serif; }
+body {
+  background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+              url('https://images.unsplash.com/photo-1500595046743-ee2a4a16f9c1') no-repeat center/cover;
   display:flex; min-height:100vh; color:white;
 }
+
 /* Sidebar */
-.sidebar{width:230px; backdrop-filter:blur(12px); background:rgba(255,255,255,0.08); padding:25px; border-right:1px solid rgba(255,255,255,0.2);}
-.logo{font-size:22px; font-weight:600; margin-bottom:35px;}
-.navbtn{display:flex;align-items:center;gap:10px;padding:12px;border-radius:8px;cursor:pointer;margin-bottom:8px;transition:.2s;}
-.navbtn:hover{background:rgba(255,255,255,0.15);}
+.sidebar { width:230px; backdrop-filter:blur(12px); background:rgba(255,255,255,0.08); padding:25px; border-right:1px solid rgba(255,255,255,0.2);}
+.logo { font-size:22px; font-weight:600; margin-bottom:35px; }
+.navbtn { display:flex; align-items:center; gap:10px; padding:12px; border-radius:8px; cursor:pointer; margin-bottom:8px; transition:.2s; }
+.navbtn:hover { background:rgba(255,255,255,0.15); }
+
 /* Main */
-.main{flex:1;display:flex;flex-direction:column;}
+.main { flex:1; display:flex; flex-direction:column; }
+
 /* Topbar */
-.topbar{height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;backdrop-filter:blur(10px);background:rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.2);}
-.search{padding:10px;border:none;border-radius:8px;width:240px;}
+.topbar { height:70px; display:flex; align-items:center; justify-content:space-between; padding:0 30px; backdrop-filter:blur(10px); background:rgba(255,255,255,0.08); border-bottom:1px solid rgba(255,255,255,0.2); }
+.search { padding:10px; border:none; border-radius:8px; width:240px; }
+
 /* Screens */
-.screen{display:none;padding:30px;}
-.active{display:block;}
+.screen { display:none; padding:30px; }
+.active { display:block; }
+
 /* Cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:30px;}
-.card{background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);padding:20px;border-radius:10px;}
-.card p{font-size:24px;margin-top:10px;}
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; margin-bottom:30px; }
+.card { background:rgba(255,255,255,0.08); backdrop-filter:blur(10px); padding:20px; border-radius:10px; }
+.card p { font-size:24px; margin-top:10px; }
+
 /* Grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:20px;}
-.animal{background:rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;cursor:pointer;}
-.animal img{width:100%;height:150px;object-fit:cover;}
-.animal-info{padding:12px;}
-.animal-info h4{margin-bottom:6px;}
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:20px; }
+.animal { background:rgba(255,255,255,0.08); border-radius:10px; overflow:hidden; cursor:pointer; }
+.animal img { width:100%; height:150px; object-fit:cover; }
+.animal-info { padding:12px; }
+.animal-info h4 { margin-bottom:6px; }
+
 /* Button & Form */
-button{padding:6px 12px;border:none;border-radius:6px;background:#00c27a;color:white;cursor:pointer;margin-right:5px;margin-top:6px;}
-.form{margin-top:30px;background:rgba(255,255,255,0.08);padding:20px;border-radius:10px;}
-.form input,.form select,.form textarea{width:100%;padding:10px;margin-bottom:10px;border-radius:6px;border:none;}
+button { padding:6px 12px; border:none; border-radius:6px; background:#00c27a; color:white; cursor:pointer; margin-right:5px; margin-top:6px; }
+.form { margin-top:30px; background:rgba(255,255,255,0.08); padding:20px; border-radius:10px; }
+.form input, .form select, .form textarea { width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:none; }
+
 /* Modal */
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;}
-.modal-box{background:white;color:black;padding:25px;border-radius:10px;width:420px;}
-.modal-box img{width:100%;border-radius:8px;margin-bottom:10px;}
+.modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center; }
+.modal-box { background:white; color:black; padding:25px; border-radius:10px; width:420px; }
+.modal-box img { width:100%; border-radius:8px; margin-bottom:10px; }
+
 /* Auth Boxes */
-.authBox{margin-bottom:20px;background:rgba(255,255,255,0.08);padding:15px;border-radius:8px;}
-.authBox input{width:100%;margin-bottom:10px;padding:8px;border-radius:6px;border:none;}
-.authBox button{width:100%;margin-top:5px;}
+.authBox { margin-bottom:20px; background:rgba(255,255,255,0.08); padding:15px; border-radius:8px; }
+.authBox input { width:100%; margin-bottom:10px; padding:8px; border-radius:6px; border:none; }
+.authBox button { width:100%; margin-top:5px; }
 </style>
 </head>
 <body>
@@ -69,6 +80,7 @@ button{padding:6px 12px;border:none;border-radius:6px;background:#00c27a;color:w
 </div>
 </div>
 
+<!-- DASHBOARD -->
 <div id="dashboard" class="screen active">
 <div class="cards">
 <div class="card">Total Listings<p id="d1">0</p></div>
@@ -80,6 +92,7 @@ button{padding:6px 12px;border:none;border-radius:6px;background:#00c27a;color:w
 <div id="dashboardAnimals" class="grid"></div>
 </div>
 
+<!-- MARKET -->
 <div id="market" class="screen">
 <div id="marketAnimals" class="grid"></div>
 <div class="form">
@@ -100,22 +113,26 @@ button{padding:6px 12px;border:none;border-radius:6px;background:#00c27a;color:w
 </div>
 </div>
 
+<!-- ORDERS -->
 <div id="orders" class="screen">
 <h3>Cart</h3>
 <div id="cart"></div>
 <button onclick="checkout()">Checkout</button>
 </div>
 
+<!-- WISHLIST -->
 <div id="wishlist" class="screen">
 <h3>Wishlist</h3>
 <div id="wishlistDiv"></div>
 </div>
 
+<!-- ANALYTICS -->
 <div id="analytics" class="screen">
 <h3>Marketplace Analytics</h3>
 <p id="analyticsText"></p>
 </div>
 
+<!-- AUTH -->
 <div class="screen active" id="authScreen">
 <div class="authBox">
 <h3>Create Account</h3>
@@ -131,125 +148,131 @@ button{padding:6px 12px;border:none;border-radius:6px;background:#00c27a;color:w
 </div>
 </div>
 
+<!-- MODAL -->
 <div id="modal" class="modal">
 <div class="modal-box" id="modalContent"></div>
 </div>
 
+<!-- FIREBASE SDK + AUTH -->
 <script type="module">
-// Firebase SDK
+// Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 // Firebase config
 const firebaseConfig = {
-apiKey:"AIzaSyDjDxYGdNQsBYJN_bjtolJpk2rUXbBQVYk",
-authDomain:"boma-market.firebaseapp.com",
-projectId:"boma-market",
-storageBucket:"boma-market.firebasestorage.app",
-messagingSenderId:"26989669304",
-appId:"1:26989669304:web:b604e90b152ba1af717d4d"
+apiKey: "AIzaSyDjDxYGdNQsBYJN_bjtolJpk2rUXbBQVYk",
+authDomain: "boma-market.firebaseapp.com",
+databaseURL: "https://boma-market-default-rtdb.firebaseio.com",
+projectId: "boma-market",
+storageBucket: "boma-market.firebasestorage.app",
+messagingSenderId: "26989669304",
+appId: "1:26989669304:web:b604e90b152ba1af717d4d"
 };
 
 // Init
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
 
-let user = null;
+// LocalStorage DB
+let db = {
+  animals: JSON.parse(localStorage.getItem("animals"))||[],
+  cart: JSON.parse(localStorage.getItem("cart"))||[],
+  wishlist: JSON.parse(localStorage.getItem("wishlist"))||[],
+  user: null
+};
 
-// UI
+// Utility
+function save(){ localStorage.setItem("animals",JSON.stringify(db.animals)); localStorage.setItem("cart",JSON.stringify(db.cart)); localStorage.setItem("wishlist",JSON.stringify(db.wishlist)); }
+
+// UI Functions
 function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active")); document.getElementById(id).classList.add("active"); }
+
 imageUpload.onchange = e => {
   let r = new FileReader();
   r.onload = x => { imageUpload.dataset.img = x.target.result; }
   r.readAsDataURL(e.target.files[0]);
 }
 
-// Firebase Auth
-window.signup = async function(){
-try{
-let email=document.getElementById("signupEmail").value;
-let password=document.getElementById("signupPassword").value;
-let u = await createUserWithEmailAndPassword(auth,email,password);
-await sendEmailVerification(u.user);
-alert("Verification email sent. Check inbox.");
-}catch(e){alert(e.message);}
+// Animals
+window.postAnimal = function(){
+if(!db.user){alert("Login first"); return;}
+let a = {
+id:Date.now(),
+name:name.value,
+breed:breed.value,
+age:age.value,
+weight:weight.value,
+price:price.value,
+description:description.value,
+image:imageUpload.dataset.img
+};
+db.animals.push(a); save(); render();
 }
 
-window.login = async function(){
-try{
-let email=document.getElementById("loginEmail").value;
-let password=document.getElementById("loginPassword").value;
-let u = await signInWithEmailAndPassword(auth,email,password);
-if(u.user.emailVerified){ alert("Login successful"); user=u.user; show('dashboard'); loadAnimals(); } else alert("Verify your email first.");
-}catch(e){alert(e.message);}
-}
-
-window.logout = function(){ signOut(auth).then(()=>{ alert("Logged out"); user=null; show('authScreen'); }); }
-
-// Firestore: Post Animal
-window.postAnimal = async function(){
-if(!user){ alert("Login first"); return; }
-let img = imageUpload.dataset.img;
-if(!img){ alert("Upload image"); return; }
-let storageRef = ref(storage,'animals/'+Date.now());
-await uploadString(storageRef,img,'data_url');
-let url = await getDownloadURL(storageRef);
-await addDoc(collection(db,'animals'),{
-name:name.value, breed:breed.value, age:age.value, weight:weight.value, price:price.value, description:description.value, image:url, timestamp:Date.now()
+// Render Animals
+function render(){
+let market = document.getElementById("marketAnimals"), dash=document.getElementById("dashboardAnimals");
+market.innerHTML=""; dash.innerHTML="";
+db.animals.forEach(a=>{
+let card=document.createElement("div");
+card.className="animal";
+card.innerHTML=`<img src="${a.image}"><div class="animal-info"><h4>${a.name}</h4><p>KES ${a.price}</p><button onclick="addCart(${a.id})">Cart</button><button onclick="addWish(${a.id})">❤</button></div>`;
+card.onclick=()=>viewAnimal(a.id);
+market.appendChild(card); dash.appendChild(card.cloneNode(true));
 });
-alert("Animal posted!");
-loadAnimals();
-}
-
-// Load Animals
-async function loadAnimals(){
-let snapshot = await getDocs(collection(db,'animals'));
-marketAnimals.innerHTML=""; dashboardAnimals.innerHTML="";
-snapshot.forEach(docSnap=>{
-let a = docSnap.data();
-let id=docSnap.id;
-let card=document.createElement("div"); card.className="animal";
-card.innerHTML=`<img src="${a.image}"><div class="animal-info"><h4>${a.name}</h4><p>KES ${a.price}</p><button onclick="addCart('${id}')">Cart</button><button onclick="addWish('${id}')">❤</button></div>`;
-card.onclick=()=>viewAnimal(docSnap);
-marketAnimals.appendChild(card);
-dashboardAnimals.appendChild(card.cloneNode(true));
-});
-updateStats(snapshot);
+updateStats();
+renderCart(); renderWish();
 }
 
 // Modal
-function viewAnimal(docSnap){
-let a=docSnap.data();
+function viewAnimal(id){
+let a=db.animals.find(x=>x.id==id);
 modal.style.display="flex";
-modalContent.innerHTML=`<img src="${a.image}"><h2>${a.name}</h2><p><b>Breed:</b> ${a.breed}</p><p><b>Age:</b> ${a.age}</p><p><b>Weight:</b> ${a.weight}</p><p><b>Price:</b> ${a.price}</p><p>${a.description}</p>`;
+modalContent.innerHTML=`<img src="${a.image}"><h2>${a.name}</h2><p><b>Breed:</b> ${a.breed}</p><p><b>Age:</b> ${a.age}</p><p><b>Weight:</b> ${a.weight}</p><p><b>Price:</b> ${a.price}</p><p>${a.description}</p><button onclick="addCart(${a.id})">Add Cart</button>`;
 }
-
-// Cart/Wishlist (simple local)
-let cart=[], wishlist=[];
-window.addCart=id=>{ cart.push(id); renderCart(); }
-window.addWish=id=>{ wishlist.push(id); renderWish(); }
-function renderCart(){ cartDiv.innerHTML=""; cart.forEach(a=>{ let d=document.createElement("div"); d.innerText=a; cartDiv.appendChild(d); }); }
-function renderWish(){ wishlistDiv.innerHTML=""; wishlist.forEach(a=>{ let d=document.createElement("div"); d.innerText=a; wishlistDiv.appendChild(d); }); }
-
-function checkout(){ alert("Order placed!"); cart=[]; renderCart(); }
-
-function updateStats(snapshot){ 
-d1.innerText=snapshot.size; 
-d2.innerText=cart.length; 
-d4.innerText=wishlist.length; 
-let total=0; snapshot.forEach(d=>{total+=Number(d.data().price||0)}); d3.innerText="KES "+total; analyticsText.innerText=`Animals: ${snapshot.size}\nCart: ${cart.length}\nWishlist: ${wishlist.length}`;
-}
-
-// Monitor Auth State
-onAuthStateChanged(auth,u=>{ if(u && u.emailVerified){ user=u; show('dashboard'); loadAnimals(); } else { user=null; show('authScreen'); } });
-
-// Modal close
 modal.onclick=()=>modal.style.display="none";
 
+// Cart / Wishlist
+window.addCart = id => { let a=db.animals.find(x=>x.id==id); db.cart.push(a); save(); renderCart(); }
+function renderCart(){ cart.innerHTML=""; db.cart.forEach(a=>{ let d=document.createElement("div"); d.innerText=`${a.name} - ${a.price}`; cart.appendChild(d); }); }
+
+window.addWish = id => { let a=db.animals.find(x=>x.id==id); db.wishlist.push(a); save(); renderWish(); }
+function renderWish(){ wishlistDiv.innerHTML=""; db.wishlist.forEach(a=>{ let d=document.createElement("div"); d.innerText=`${a.name} - ${a.price}`; wishlistDiv.appendChild(d); }); }
+
+window.checkout = ()=>{ alert("Order placed!"); db.cart=[]; save(); renderCart(); }
+
+function updateStats(){
+d1.innerText=db.animals.length; d2.innerText=db.cart.length; d4.innerText=db.wishlist.length;
+let v=db.animals.reduce((s,a)=>s+Number(a.price||0),0); d3.innerText="KES "+v;
+analyticsText.innerText=`Animals: ${db.animals.length}\nCart: ${db.cart.length}\nWishlist: ${db.wishlist.length}`;
+}
+
+// Firebase Auth
+window.signup = function(){
+const email=document.getElementById("signupEmail").value;
+const password=document.getElementById("signupPassword").value;
+createUserWithEmailAndPassword(auth,email,password).then(u=>{
+sendEmailVerification(u.user).then(()=>alert("Verification email sent. Check inbox."));
+}).catch(e=>alert(e.message));
+}
+
+window.login = function(){
+const email=document.getElementById("loginEmail").value;
+const password=document.getElementById("loginPassword").value;
+signInWithEmailAndPassword(auth,email,password).then(u=>{
+if(u.user.emailVerified){ alert("Login successful"); db.user=u.user; show('dashboard'); } 
+else{ alert("Verify email first."); } }).catch(e=>alert(e.message));
+}
+
+window.logout = function(){ signOut(auth).then(()=>{ alert("Logged out"); db.user=null; show('authScreen'); }); }
+
+onAuthStateChanged(auth,user=>{ if(user && user.emailVerified){ db.user=user; show('dashboard'); console.log("Logged in:",user.email); } else { db.user=null; console.log("No user"); show('authScreen'); } });
+
+// Initial render
+render();
+
 </script>
+
 </body>
 </html>
