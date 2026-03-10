@@ -1,221 +1,235 @@
-// script.js
-document.addEventListener("DOMContentLoaded", async () => {
+<script>
 
-  // ── Supabase Config ───────────────────────────────────────
-  const SUPABASE_URL = "https://szcqgjkgmqygcbizwmoc.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6Y3FnamtnbXF5Z2NiaXp3bW9jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MjA1OTksImV4cCI6MjA4ODM5NjU5OX0.v9uYMCPb4U2fdG_VYvA5h5wKdvzzaEU43xJsDth5LSI";
+/* -----------------------------
+SIMPLE LOCAL DATABASE
+--------------------------------*/
 
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let animals = JSON.parse(localStorage.getItem("animals")) || []
+let loggedIn = localStorage.getItem("loggedIn") || false
 
-  // ── DOM Elements ──────────────────────────────────────────
-  const postBtn       = document.getElementById("postBtn");
-  const previewImg    = document.getElementById("preview");
-  const imageInput    = document.getElementById("imageUpload");
-  const signupBtn     = document.getElementById("signupBtn");
-  const loginBtn      = document.getElementById("loginBtn");
-  const logoutBtn     = document.getElementById("logoutBtn");
-  const authStatus    = document.getElementById("authStatus");
-  const sellSection   = document.getElementById("sell");
 
-  // ── Image Preview ─────────────────────────────────────────
-  imageInput.addEventListener("change", () => {
-    const file = imageInput.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => previewImg.src = e.target.result;
-    reader.readAsDataURL(file);
-  });
+/* -----------------------------
+AUTH BUTTONS
+--------------------------------*/
 
-  // ── Auth UI Update ────────────────────────────────────────
-  async function updateAuthUI() {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session?.user) {
-      authStatus.textContent = `Logged in as ${session.user.email}`;
-      logoutBtn.style.display = "inline-block";
-      if (sellSection) sellSection.style.display = "block"; // show sell form
-    } else {
-      authStatus.textContent = "Not logged in — sign up / log in to post livestock";
-      logoutBtn.style.display = "none";
-      if (sellSection) sellSection.style.display = "none"; // hide sell form
-    }
-    loadAnimals(); // refresh list
-  }
+const loginBtn = document.getElementById("loginBtn")
+const logoutBtn = document.getElementById("logoutBtn")
 
-  // Initial auth check
-  updateAuthUI();
+loginBtn.onclick = () => {
 
-  // Listen for login/logout/signup changes
-  supabase.auth.onAuthStateChange(() => {
-    updateAuthUI();
-  });
+loggedIn = true
+localStorage.setItem("loggedIn", true)
 
-  // ── Sign Up ───────────────────────────────────────────────
-  signupBtn.addEventListener("click", async () => {
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+alert("Logged in successfully")
 
-    if (!email || !password) return alert("Please enter email and password");
+}
 
-    const { error } = await supabase.auth.signUp({ email, password });
+logoutBtn.onclick = () => {
 
-    if (error) alert("Sign up failed: " + error.message);
-    else alert("Sign up successful! You can now log in.");
-  });
+loggedIn = false
+localStorage.removeItem("loggedIn")
 
-  // ── Log In ────────────────────────────────────────────────
-  loginBtn.addEventListener("click", async () => {
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+alert("Logged out")
 
-    if (!email || !password) return alert("Please enter email and password");
+}
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) alert("Login failed: " + error.message);
-    else {
-      // updateAuthUI() auto-called via onAuthStateChange
-    }
-  });
+/* -----------------------------
+IMAGE PREVIEW
+--------------------------------*/
 
-  // ── Log Out ───────────────────────────────────────────────
-  logoutBtn.addEventListener("click", async () => {
-    await supabase.auth.signOut();
-    // updateAuthUI() auto-called
-  });
+document.getElementById("imageUpload").addEventListener("change", e => {
 
-  // ── Post Animal ───────────────────────────────────────────
-  postBtn.addEventListener("click", async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session?.user) {
-      alert("Please log in to post an animal");
-      return;
-    }
+const file = e.target.files[0]
+const reader = new FileReader()
 
-    const file = imageInput.files[0];
-    if (!file) return alert("Please select an image");
+reader.onload = event => {
 
-    const animal = {
-      name:     document.getElementById("name").value,
-      age:      document.getElementById("age").value,
-      price:    document.getElementById("price").value,
-      location: document.getElementById("location").value,
-      phone:    document.getElementById("phone").value,
-      user_id:  session.user.id   // ties post to logged-in user
-    };
+document.getElementById("preview").src = event.target.result
 
-    if (!animal.name || !animal.age || !animal.price || !animal.location || !animal.phone) {
-      return alert("Please fill all fields!");
-    }
+}
 
-    try {
-      // Upload image
-      const fileName = `\( {Date.now()}_ \){file.name.replace(/\s+/g, '_')}`;
-      const { error: uploadError } = await supabase.storage
-        .from("animals")
-        .upload(fileName, file, { cacheControl: "3600", upsert: false });
+reader.readAsDataURL(file)
 
-      if (uploadError) throw uploadError;
+})
 
-      // Get public URL (works if bucket is public)
-      const { data: { publicUrl } } = supabase.storage
-        .from("animals")
-        .getPublicUrl(fileName);
 
-      animal.image_url = publicUrl;
+/* -----------------------------
+POST ANIMAL
+--------------------------------*/
 
-      // Save to database
-      const { error: insertError } = await supabase
-        .from("animals")
-        .insert([animal]);
+document.getElementById("postBtn").onclick = () => {
 
-      if (insertError) throw insertError;
+if(!loggedIn){
 
-      alert("Animal posted successfully!");
+alert("Login first to post livestock")
+return
 
-      // Reset form
-      imageInput.value = "";
-      previewImg.src = "";
-      document.getElementById("name").value = "";
-      document.getElementById("age").value = "";
-      document.getElementById("price").value = "";
-      document.getElementById("location").value = "";
-      document.getElementById("phone").value = "";
+}
 
-      loadAnimals();
+let name = document.getElementById("name").value
+let breed = document.getElementById("breed").value
+let age = document.getElementById("age").value
+let weight = document.getElementById("weight").value
+let price = document.getElementById("price").value
+let description = document.getElementById("description").value
+let image = document.getElementById("preview").src
 
-    } catch (err) {
-      console.error("Post error:", err);
-      alert("Failed to post: " + (err.message || "Unknown error"));
-    }
-  });
+if(!name || !price){
 
-  // ── Load & Display Animals ────────────────────────────────
-  async function loadAnimals() {
-    try {
-      const { data: animals, error } = await supabase
-        .from("animals")
-        .select("*")
-        .order("id", { ascending: false });
+alert("Please fill required fields")
+return
 
-      if (error) throw error;
-      displayAnimals(animals || []);
-    } catch (err) {
-      console.error("Load failed:", err);
-      document.getElementById("market").innerHTML = "<p>Error loading livestock. Please try again.</p>";
-    }
-  }
+}
 
-  function displayAnimals(list) {
-    const market = document.getElementById("market");
-    market.innerHTML = "<h2>Livestock Market</h2>";
+let animal = {
 
-    if (list.length === 0) {
-      market.innerHTML += "<p>No animals posted yet.</p>";
-      return;
-    }
+id: Date.now(),
+name,
+breed,
+age,
+weight,
+price,
+description,
+image
 
-    list.forEach(a => {
-      market.innerHTML += `
-        <div class="card">
-          <img src="\( {a.image_url || 'placeholder.jpg'}" alt=" \){a.name}" onerror="this.src='placeholder.jpg'">
-          <h3>${a.name}</h3>
-          <p>Age: ${a.age}</p>
-          <p>Price: KES ${a.price}</p>
-          <p>Location: ${a.location}</p>
-          <a href="https://wa.me/${a.phone.replace(/\D/g,'')}" target="_blank" rel="noopener">
-            <button>Contact Seller</button>
-          </a>
-        </div>
-      `;
-    });
-  }
+}
 
-  // ── Filters & Search ──────────────────────────────────────
-  async function filterAndSearch() {
-    const search = document.getElementById("search").value.toLowerCase().trim();
-    const animalType = document.getElementById("filterAnimal").value;
-    const loc = document.getElementById("filterLocation").value;
+animals.push(animal)
 
-    try {
-      let query = supabase.from("animals").select("*");
+localStorage.setItem("animals", JSON.stringify(animals))
 
-      if (search)   query = query.ilike("name", `%${search}%`);
-      if (animalType) query = query.eq("name", animalType);
-      if (loc)      query = query.eq("location", loc);
+renderAnimals()
 
-      const { data: animals, error } = await query.order("id", { ascending: false });
+alert("Animal posted successfully")
 
-      if (error) throw error;
-      displayAnimals(animals || []);
-    } catch (err) {
-      console.error("Filter error:", err);
-    }
-  }
+}
 
-  document.getElementById("search").addEventListener("input", filterAndSearch);
-  document.getElementById("filterAnimal").addEventListener("change", filterAndSearch);
-  document.getElementById("filterLocation").addEventListener("change", filterAndSearch);
 
-  // Initial load
-  loadAnimals();
-});
+/* -----------------------------
+RENDER MARKET TABLE
+--------------------------------*/
+
+function renderAnimals(){
+
+const table = document.querySelector("tbody")
+
+table.innerHTML = ""
+
+animals.forEach(animal => {
+
+let row = document.createElement("tr")
+
+row.innerHTML = `
+
+<td>${animal.name}</td>
+<td>${animal.breed}</td>
+<td>${animal.age}</td>
+<td>${animal.weight}</td>
+<td>KES ${animal.price}</td>
+
+<td>
+<button onclick="viewAnimal(${animal.id})">View</button>
+<button onclick="deleteAnimal(${animal.id})">Delete</button>
+</td>
+
+`
+
+table.appendChild(row)
+
+})
+
+updateStats()
+
+}
+
+
+/* -----------------------------
+VIEW ANIMAL
+--------------------------------*/
+
+function viewAnimal(id){
+
+let animal = animals.find(a => a.id === id)
+
+alert(
+
+`Animal: ${animal.name}
+
+Breed: ${animal.breed}
+
+Age: ${animal.age}
+
+Weight: ${animal.weight}
+
+Price: KES ${animal.price}
+
+Description: ${animal.description}`
+
+)
+
+}
+
+
+/* -----------------------------
+DELETE ANIMAL
+--------------------------------*/
+
+function deleteAnimal(id){
+
+animals = animals.filter(a => a.id !== id)
+
+localStorage.setItem("animals", JSON.stringify(animals))
+
+renderAnimals()
+
+}
+
+
+/* -----------------------------
+SEARCH LIVESTOCK
+--------------------------------*/
+
+document.querySelector(".search").addEventListener("input", e => {
+
+let keyword = e.target.value.toLowerCase()
+
+let rows = document.querySelectorAll("tbody tr")
+
+rows.forEach(row => {
+
+let text = row.innerText.toLowerCase()
+
+row.style.display = text.includes(keyword) ? "" : "none"
+
+})
+
+})
+
+
+/* -----------------------------
+DASHBOARD STATS
+--------------------------------*/
+
+function updateStats(){
+
+document.querySelector(".cards").children[0].querySelector("p").innerText = animals.length
+
+document.querySelector(".cards").children[1].querySelector("p").innerText = animals.length
+
+let revenue = animals.reduce((sum,a)=> sum + Number(a.price || 0),0)
+
+document.querySelector(".cards").children[2].querySelector("p").innerText = "KES " + revenue
+
+document.querySelector(".cards").children[3].querySelector("p").innerText = animals.length
+
+}
+
+
+/* -----------------------------
+INITIAL LOAD
+--------------------------------*/
+
+renderAnimals()
+
+</script>
